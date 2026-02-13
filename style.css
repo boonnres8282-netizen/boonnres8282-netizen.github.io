@@ -4,7 +4,7 @@
     --text-pink: #d63384;
 }
 
-body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kanit', sans-serif; background: #fdf2f2; overflow-x: hidden; }
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kanit', sans-serif; background: #fdf2f2; overflow: hidden; }
 .screen { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; position: absolute; }
 .active { display: flex; }
 
@@ -15,66 +15,47 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kan
 .envelope-back { position: absolute; width: 100%; height: 100%; background: #ffb7c5; z-index: 1; border-radius: 0 0 5px 5px; }
 
 .envelope-front {
-    position: absolute; width: 100%; height: 100%;
-    z-index: 3;
-    background: #ffafbd;
-    clip-path: polygon(0 35%, 50% 70%, 100% 35%, 100% 100%, 0 100%); /* ทำเป็นรูปทรงซองหน้า */
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: absolute; width: 0; height: 0;
+    border-top: 100px solid transparent;
+    border-left: 150px solid #ffafbd; border-right: 150px solid #ffafbd;
+    border-bottom: 100px solid #ffafbd;
+    z-index: 3; border-radius: 0 0 5px 5px;
 }
 
-/* หัวใจตรงกลางซอง */
-.heart-pulse {
-    font-size: 40px;
-    margin-top: 30px;
-    animation: heartBeat 0.8s infinite alternate;
-    pointer-events: none;
-}
-@keyframes heartBeat { from { transform: scale(1); } to { transform: scale(1.2); } }
-
-/* ข้อความ To: อยู่ล่างหัวใจ */
+/* To: คนพิเศษ อยู่มุมซ้ายล่างของซองหน้า */
 .envelope-label {
-    color: var(--text-pink);
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-top: 10px;
+    position: absolute; bottom: -80px; left: -140px; width: 150px;
+    color: var(--text-pink); font-weight: bold; font-size: 1rem;
+    z-index: 5;
 }
 
+/* ฝาซองจดหมาย */
 .lid {
     position: absolute; top: 0; left: 0; width: 0; height: 0;
     border-top: 110px solid var(--deep-pink);
     border-left: 150px solid transparent; border-right: 150px solid transparent;
     z-index: 4; transform-origin: top; transition: transform 0.7s ease-in-out;
+    display: flex; justify-content: center;
 }
 
+/* หัวใจตรงจงอยฝาซอง */
+.heart-pulse {
+    position: absolute; top: -115px; font-size: 25px;
+    animation: heartBeat 0.8s infinite alternate;
+}
+@keyframes heartBeat { from { transform: scale(1); } to { transform: scale(1.3); } }
+
+/* กระดาษจดหมาย */
 .letter {
     position: absolute; top: 10px; left: 15px; width: 270px; height: 180px;
     background: white; z-index: 2; display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 10px; box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 10px;
     transition: transform 1s ease-in-out 0.7s, z-index 0s linear 1s;
 }
 
-/* เมื่อเปิดซอง */
+/* --- จังหวะเปิด: ซองลง กระดาษขึ้น --- */
 .open .lid { transform: rotateX(180deg); z-index: 1; }
-.open .envelope-wrapper { transform: translateY(60px); } /* ซองเลื่อนลง */
-.open .letter { transform: translateY(-200px); z-index: 10; } /* จดหมายเลื่อนขึ้น */
-.open .envelope-front { opacity: 0.9; }
-
-/* หัวใจกระจาย */
-.heart { position: absolute; font-size: 20px; color: #ff4d6d; pointer-events: none; z-index: 11; animation: floatUp 1.5s ease-out forwards; }
-@keyframes floatUp { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
-
-/* ปุ่มและหน้าอื่นๆ */
-.next-btn { margin-top: 15px; padding: 10px 20px; border-radius: 20px; border: none; background: var(--deep-pink); color: white; cursor: pointer; font-weight: bold; }
-.timer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
-.timer-box { background: white; padding: 10px; border-radius: 10px; text-align: center; min-width: 70px; }
-.chat-container { width: 90%; max-width: 350px; height: 50vh; overflow-y: auto; background: #fff; border-radius: 15px; padding: 10px; display: flex; flex-direction: column; }
-.bubble { padding: 8px 12px; border-radius: 15px; margin: 4px 0; max-width: 80%; font-size: 14px; opacity: 0; transform: translateY(5px); transition: 0.3s; }
-.left { align-self: flex-start; background: #eee; }
-.right { align-self: flex-end; background: var(--deep-pink); color: white; }
-.show { opacity: 1; transform: translateY(0); }
-#puzzle-board { width: 300px; height: 300px; position: relative; border: 2px solid #ffb7c5; background: #fff; margin-top: 10px; }
-.puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; background-size: 300px 300px; touch-action: none; border: 0.5px solid #eee; }
-#scratch-container { position: relative; width: 300px; height: 150px; background: white; border-radius: 10px; overflow: hidden; margin-top: 20px; }
-#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
-.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #ff4d6d; font-weight: bold; }
+.open .envelope-wrapper { transform: translateY(60px); }
+.open .letter { transform: translateY(-200px); z-index: 10; }
+.open .heart-pulse { opacity: 0; }
