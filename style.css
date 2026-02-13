@@ -19,30 +19,56 @@ body, html {
 }
 .active { display: flex; }
 
-/* Page 1: Envelope */
+/* หน้าซองจดหมาย */
 .envelope-wrapper {
-    position: relative; width: 300px; height: 200px;
-    background: #ffb7c5; border-radius: 0 0 5px 5px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1); cursor: pointer;
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: #ffb7c5;
+    border-radius: 0 0 5px 5px;
+    z-index: 2;
 }
+
+/* ฝาซอง: ต้องมี z-index สูงที่สุดในตอนแรกเพื่อปิดจดหมาย */
 .envelope-wrapper::before {
-    content: ""; position: absolute; top: 0; z-index: 4;
-    border-top: 130px solid #ff8e9b; border-left: 150px solid transparent;
-    border-right: 150px solid transparent; transform-origin: top;
+    content: "";
+    position: absolute;
+    top: 0;
+    z-index: 5; /* อยู่หน้าสุด */
+    border-top: 130px solid #ff8e9b;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    transform-origin: top;
     transition: transform 0.6s ease;
 }
-.envelope-wrapper.open::before { transform: rotateX(180deg); z-index: 1; }
-.letter {
-    position: absolute; bottom: 5px; left: 10px; width: 280px; height: 180px;
-    background: white; z-index: 3; transition: transform 0.8s ease 0.3s;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 20px; box-sizing: border-box; box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-.envelope-wrapper.open .letter { transform: translateY(-130px); }
 
-.heart {
-    position: absolute; font-size: 20px; color: #ff4d6d;
-    pointer-events: none; z-index: 10; animation: floatUp 1.5s ease-out forwards;
+/* จดหมาย: ซ่อนอยู่ข้างหลังฝาซอง */
+.letter {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    width: 280px;
+    height: 180px;
+    background: white;
+    z-index: 3; /* อยู่หลังฝาซองแต่หน้าตัวซอง */
+    transition: transform 0.8s ease 0.3s;
+}
+
+/* ข้อความ To: บนหน้าซอง */
+.envelope-label {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 6; /* ต้องอยู่หน้าสุดเพื่อให้เห็นข้อความ */
+    font-family: 'Kanit', sans-serif;
+    color: #d63384;
+    font-weight: bold;
+}
+
+/* เมื่อเปิดซอง: ย้ายฝาไปข้างหลังเพื่อให้จดหมายเลื่อนขึ้นมาทับได้ */
+.envelope-wrapper.open::before {
+    transform: rotateX(180deg);
+    z-index: 1; 
 }
 @keyframes floatUp {
     0% { transform: translate(0, 0) scale(1); opacity: 1; }
