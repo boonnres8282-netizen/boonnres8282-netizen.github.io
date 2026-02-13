@@ -10,24 +10,28 @@
 <body>
 
     <section id="page1" class="screen active">
-    <div class="envelope-wrapper" id="env-wrap" onclick="openEnvelope()">
-        <div class="letter">
-            <h3 style="margin:0; color:#ff4d6d;">Happy Valentine's Day!</h3>
-            <p style="font-size: 14px; margin: 10px 0;">แด่คนเก่งของพี่...</p>
-            <button class="next-btn" onclick="nextPage(2)" style="scale: 0.8;">อ่านต่อคลิกเลย</button>
+        <div class="envelope-container" onclick="openEnvelope()">
+            <div class="envelope-wrapper" id="env-wrap">
+                <div class="lid"></div>
+                
+                <div class="envelope-back"></div>
+                
+                <div class="letter">
+                    <h3 style="margin:0; color:#ff4d6d;">Happy Valentine's Day!</h3>
+                    <p style="font-size: 14px; margin: 10px 0;">แด่คนเก่งของพี่...</p>
+                    <button class="next-btn" onclick="nextPage(2)" style="scale: 0.8;">อ่านต่อคลิกเลย</button>
+                </div>
+                
+                <div class="envelope-front">
+                    <div class="envelope-label">To: คนพิเศษ</div>
+                </div>
+            </div>
         </div>
-        
-        <div class="envelope-front"></div>
-        
-        <div class="envelope-label">
-            To: คนพิเศษ
-        </div>
-    </div>
-    <p id="click-hint" style="margin-top: 60px; color: #ff8e9b; font-weight: bold;">กดที่ซองจดหมายเพื่อเปิด</p>
-</section>
+        <p id="click-hint" style="margin-top: 60px; color: #ff8e9b; font-weight: bold;">กดที่ซองจดหมายเพื่อเปิด</p>
+    </section>
 
     <section id="page2" class="screen">
-        <h2 id="q2">พร้อมจะย้อนไปดูความทรงจำหรือยัง?</h2>
+        <h2>พร้อมจะย้อนไปดูความทรงจำหรือยัง?</h2>
         <div class="btn-group">
             <button id="btn-yes" onclick="nextPage(3)">พร้อมแล้ว</button>
             <button id="btn-no" onclick="increaseYes()">ไม่</button>
@@ -35,7 +39,7 @@
     </section>
 
     <section id="page3" class="screen">
-        <h2 id="pass-hint">ลองเดาดูสิ</h2>
+        <h2 id="pass-hint">ลองเดาดูสิ (รหัส 4 ตัว)</h2>
         <div class="passcode-container">
             <input type="password" id="pass-input" maxlength="4" placeholder="****">
         </div>
@@ -47,7 +51,7 @@
         <h2>เราคุยกันมาแล้ว</h2>
         <div class="timer-grid">
             <div class="timer-box"><div id="d">0</div><span>วัน</span></div>
-            <div class="timer-box"><div id="h">0</div><span>ชั่วโมง</span></div>
+            <div class="timer-box"><div id="h">0</div><span>ชม.</span></div>
             <div class="timer-box"><div id="m">0</div><span>นาที</span></div>
             <div class="timer-box"><div id="s">0</div><span>วินาที</span></div>
         </div>
