@@ -44,7 +44,6 @@ function startChat() {
 
 function initPuzzle() {
     const board = document.getElementById('puzzle-board'); if(board.children.length > 0) return;
-    let solved = 0;
     for(let i=0; i<9; i++) {
         const p = document.createElement('div'); p.className = 'puzzle-piece';
         p.style.backgroundImage = `url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=300')`;
@@ -61,8 +60,7 @@ function initPuzzle() {
                 document.removeEventListener(moveEv, onMove);
                 const tx = (i%3)*100, ty = Math.floor(i/3)*100;
                 if(Math.abs(parseInt(p.style.left)-tx)<30 && Math.abs(parseInt(p.style.top)-ty)<30) {
-                    p.style.left = tx+'px'; p.style.top = ty+'px'; p.style.pointerEvents="none"; solved++;
-                    if(solved === 9) document.getElementById('puzzle-next').style.display='block';
+                    p.style.left = tx+'px'; p.style.top = ty+'px'; p.style.pointerEvents="none";
                 }
             };
         };
