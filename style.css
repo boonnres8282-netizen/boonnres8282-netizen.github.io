@@ -9,7 +9,6 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kan
 .active { display: flex; }
 
 .envelope-container { position: relative; width: 320px; height: 220px; cursor: pointer; }
-.envelope-wrapper { position: relative; width: 100%; height: 100%; transition: transform 0.8s; }
 
 /* ฝาซอง */
 .lid {
@@ -19,48 +18,51 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kan
     z-index: 10; transform-origin: top; transition: 0.8s ease-in-out;
 }
 
-/* หัวใจปิดรอยพับ */
+/* หัวใจ */
 .heart-icon {
     position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
     font-size: 28px; z-index: 11; transition: 0.3s;
     animation: pulse 0.8s infinite alternate;
 }
 
-/* ตัวซองหน้า (ชิ้นที่บังจดหมาย) */
-.envelope-front {
-    position: absolute; bottom: 0; width: 100%; height: 125px;
-    background: var(--pink-light); z-index: 9; border-radius: 0 0 10px 10px;
+/* ตัวซองหลักที่ใช้ "บัง" จดหมายไม่ให้โผล่ */
+.envelope-body {
+    position: absolute; bottom: 0; width: 100%; height: 100%;
+    background: var(--pink-light); border-radius: 10px;
+    overflow: hidden; /* จุดตาย: ตัดส่วนที่แลบออก */
+    z-index: 5;
 }
 
-/* To: คนพิเศษ อยู่มุมซ้ายล่าง */
+.envelope-front {
+    position: absolute; bottom: 0; width: 100%; height: 125px;
+    background: var(--pink-light); z-index: 9;
+}
+
+/* To: มุมซ้ายล่าง */
 .to-text {
     position: absolute; bottom: 15px; left: 20px;
     color: var(--text-color); font-weight: 600; line-height: 1.3;
 }
 
-/* จดหมาย (ซ่อนไว้ลึกกว่าเดิม) */
+/* จดหมาย (ตอนเริ่มจะจมอยู่ข้างล่าง) */
 .letter {
-    position: absolute; bottom: 5px; left: 15px; width: 290px; height: 180px;
-    background: white; z-index: 5; display: flex; flex-direction: column;
+    position: absolute; bottom: -180px; /* ย้ายลงไปซ่อนข้างล่าง */
+    left: 15px; width: 290px; height: 180px;
+    background: white; z-index: 6; display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
     box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 5px;
     transition: transform 0.8s ease-in-out;
 }
 
-.envelope-back {
-    position: absolute; top: 0; width: 100%; height: 100%;
-    background: var(--pink-light); z-index: 1; border-radius: 10px;
-}
-
-/* แอนิเมชันเปิด */
+/* อนิเมชันเปิด */
 .open .lid { transform: rotateX(180deg); z-index: 1; }
-.open .letter { transform: translateY(-180px); z-index: 12; }
+.open .letter { transform: translateY(-240px); } /* ดันจดหมายขึ้นมา */
 .open .heart-icon { opacity: 0; }
-.open.envelope-wrapper { transform: translateY(60px); }
+.open .envelope-body { overflow: visible; } /* ยอมให้จดหมายโผล่ขึ้นมาตอนเปิดแล้ว */
 
 @keyframes pulse { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-50%) scale(1.2); } }
 
-/* CSS ส่วนอื่นๆ */
+/* CSS ส่วนอื่นๆ คงเดิม */
 .chat-container { width: 300px; height: 400px; background: white; border-radius: 10px; overflow-y: auto; display: flex; flex-direction: column; padding: 10px; }
 .bubble { padding: 8px 12px; margin: 5px; border-radius: 15px; opacity: 0; transition: 0.3s; max-width: 80%; }
 .left { align-self: flex-start; background: #eee; }
