@@ -16,17 +16,17 @@
                 
                 <div class="heart-icon">❤️</div>
 
-                <div class="letter">
-                    <h3 style="margin:0; color:#ff4d6d;">Happy Valentine's Day!</h3>
-                    <p style="font-size: 14px; margin: 10px 0;">แด่คนเก่งของพี่...</p>
-                    <button class="next-btn" onclick="nextPage(2)" style="scale: 0.8;">อ่านต่อคลิกเลย</button>
-                </div>
+                <div class="envelope-body">
+                    <div class="letter">
+                        <h3 style="margin:0; color:#ff4d6d;">Happy Valentine's Day!</h3>
+                        <p style="font-size: 14px; margin: 10px 0;">แด่คนเก่งของพี่...</p>
+                        <button class="next-btn" onclick="nextPage(2)" style="scale: 0.8;">อ่านต่อคลิกเลย</button>
+                    </div>
 
-                <div class="envelope-front">
-                    <div class="to-text">To:<br>คนพิเศษ</div>
+                    <div class="envelope-front">
+                        <div class="to-text">To:<br>คนพิเศษ</div>
+                    </div>
                 </div>
-
-                <div class="envelope-back"></div>
             </div>
         </div>
         <p id="click-hint">กดที่ซองจดหมายเพื่อเปิด</p>
@@ -34,7 +34,7 @@
 
     <section id="page2" class="screen"><h2>พร้อมจะดูความทรงจำหรือยัง?</h2><button class="next-btn" onclick="nextPage(3)">พร้อมแล้ว</button></section>
     <section id="page3" class="screen"><h2>รหัส 4 ตัว</h2><input type="password" id="pass-input" maxlength="4"><button class="next-btn" onclick="checkPass()">ตกลง</button></section>
-    <section id="page4" class="screen"><div id="timer" style="font-size: 1.5rem; color:#d63384;">...</div><button class="next-btn" onclick="nextPage(4.5)">ถัดไป</button></section>
+    <section id="page4" class="screen"><div id="timer">...</div><button class="next-btn" onclick="nextPage(4.5)">ถัดไป</button></section>
     <section id="page4.5" class="screen"><div class="chat-container" id="chat-box"></div><button id="chat-next" class="next-btn" style="display:none;" onclick="nextPage(5)">ไปต่อ</button></section>
     <section id="page5" class="screen"><h2>ต่อจิ๊กซอว์สิ!</h2><div id="puzzle-board"></div><button id="puzzle-next" class="next-btn" style="display:none;" onclick="nextPage(6)">ไปต่อ</button></section>
     <section id="page6" class="screen"><h2>สุขสันต์วันวาเลนไทน์</h2><button class="next-btn" onclick="nextPage(7)">มีความลับจะบอก...</button></section>
