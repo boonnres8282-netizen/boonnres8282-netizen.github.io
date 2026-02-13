@@ -2,18 +2,13 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Mewtro - For You</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
     <style>
         :root {
-            --primary-pink: #FF7EB9;
-            --soft-pink: #FFC0CB;
-            --dark-bg: #000000;
-            --light-text: #ffffff;
-            --border-radius-lg: 25px;
-            --border-radius-md: 15px;
+            --pink: #ffafbd;
+            --deep-pink: #ff8e9b;
+            --white: #ffffff;
         }
 
         body, html {
@@ -22,534 +17,336 @@
             width: 100%;
             height: 100%;
             font-family: 'Kanit', sans-serif;
-            overflow: hidden; /* ป้องกันการเลื่อน */
-            background-color: var(--dark-bg); /* พื้นหลังดำเหมือน TikTok */
-            color: var(--light-text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* --- กรอบมือถือจำลอง --- */
-        .phone-mockup {
-            width: 100%;
-            max-width: 400px; /* ขนาดจำลองมือถือ */
-            height: 100%;
-            max-height: 800px; /* ขนาดจำลองมือถือ */
-            background-color: var(--dark-bg);
-            border-radius: var(--border-radius-lg);
             overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-        }
-
-        /* --- ส่วน Header (แถบด้านบน) --- */
-        .header {
-            background-color: var(--dark-bg);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 10;
-        }
-        .header .search-bar {
-            flex-grow: 1;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius-md);
-            padding: 8px 15px;
-            color: var(--light-text);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .header .search-bar input {
-            background: none;
-            border: none;
-            color: var(--light-text);
-            width: 100%;
-            font-size: 1rem;
-        }
-        .header .search-bar input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        .header .search-icon {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* --- ส่วน Main Content --- */
-        .main-content {
-            flex-grow: 1;
-            position: relative;
-            overflow: hidden; /* ให้แต่ละ screen อยู่ภายในนี้ */
+            background: #fdf2f2;
         }
 
         .screen {
-            display: none; /* ซ่อนทุกหน้าก่อน */
+            display: none;
             width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
+            height: 100vh;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            background-color: var(--primary-pink); /* สีพื้นหลังของแต่ละหน้า */
-            animation: fadeIn 0.5s ease-in-out;
-            padding: 20px;
-            box-sizing: border-box;
-            color: white;
-            text-align: center;
+            position: absolute;
+            transition: all 0.5s ease;
         }
 
-        .screen.active { display: flex; }
+        .active { display: flex; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* --- ส่วน Footer (แถบเมนูด้านล่าง) --- */
-        .footer {
-            background-color: var(--dark-bg);
-            padding: 10px 0;
-            display: flex;
-            justify-content: space-around;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        /* --- Page 1: Envelope --- */
+        .envelope-wrapper {
             position: relative;
-            z-index: 10;
-        }
-        .footer-item {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.75rem;
-            text-align: center;
             cursor: pointer;
-        }
-        .footer-item i { font-size: 1.2rem; margin-bottom: 3px; }
-        .footer-item.active { color: var(--light-text); }
-
-        /* --- Passcode Screen --- */
-        #passcode-screen { background-color: var(--dark-bg); } /* พื้นหลังดำสำหรับหน้าแรก */
-        .passcode-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: var(--border-radius-lg);
-            text-align: center;
-            max-width: 300px;
-            width: 100%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .passcode-box p { font-size: 1.1rem; margin-bottom: 20px; }
-        #dots { font-size: 1.5rem; letter-spacing: 5px; margin-bottom: 20px; }
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        .keypad button {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--light-text);
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-        .keypad button:active { background: rgba(255, 255, 255, 0.4); }
-
-        /* --- Envelope Screen --- */
-        #envelope-screen .envelope-wrapper {
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        #envelope-screen .message-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 30px;
+            transition: transform 0.3s;
         }
         .envelope {
-            width: 200px;
-            height: 120px;
-            background: #f08080; /* แดงอมชมพู */
             position: relative;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: transform 0.5s ease;
-            transform-origin: bottom;
-            overflow: hidden;
+            width: 250px;
+            height: 180px;
+            background: #f39c12; /* ซองสีเหลืองทอง/ชมพู */
+            background-color: #ffb7c5;
         }
-        .envelope::before { /* ฝาซองจดหมายด้านบน */
-            content: '';
-            position: absolute;
-            top: -100px; /* เลื่อนขึ้นให้เห็นเป็นสามเหลี่ยม */
-            left: 0;
-            border-left: 100px solid transparent;
-            border-right: 100px solid transparent;
-            border-bottom: 100px solid #f08080;
-            transform-origin: bottom;
-            transition: transform 0.5s ease;
-        }
-        .envelope.open::before {
-            transform: rotateX(180deg); /* เปิดฝาซอง */
-        }
-        .letter-content {
+        .envelope:before {
+            content: "";
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            border-top: 100px solid #ff8e9b;
+            border-left: 125px solid transparent;
+            border-right: 125px solid transparent;
+            transition: transform 0.5s;
+            transform-origin: top;
+            z-index: 3;
+        }
+        .open.envelope:before { transform: rotateX(180deg); }
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 230px;
+            height: 150px;
             background: white;
-            color: #333;
-            padding: 20px;
-            box-sizing: border-box;
-            border-radius: 10px;
-            transform: translateY(100%); /* ซ่อนไว้ด้านล่าง */
-            transition: transform 0.8s ease-out;
+            z-index: 2;
+            transition: transform 0.8s;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
         }
-        .envelope.open .letter-content {
-            transform: translateY(0); /* เลื่อนขึ้นมา */
-        }
-        .letter-content h3 { color: var(--primary-pink); margin-bottom: 10px; }
-        .letter-content p { font-size: 0.9rem; line-height: 1.5; }
+        .open .letter { transform: translateY(-100px); }
 
-        /* --- Timer Screen --- */
-        .timer-card {
-            background: rgba(255,255,255,0.2);
-            padding: 30px;
-            border-radius: var(--border-radius-lg);
-            backdrop-filter: blur(10px);
-            max-width: 320px;
-            width: 100%;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            color: var(--light-text);
-        }
-        .timer-card h2 { margin-bottom: 25px; font-size: 1.8rem; }
-        .timer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .time-box {
-            background: var(--light-text);
-            color: var(--primary-pink);
-            padding: 15px;
-            border-radius: var(--border-radius-md);
-            font-weight: bold;
-            font-size: 1rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .time-box span { font-size: 2.2rem; display: block; font-weight: 700; margin-bottom: 5px; }
+        /* --- Page 2: Yes/No --- */
+        #btn-yes { transition: all 0.2s; font-size: 18px; padding: 10px 20px; border-radius: 20px; border: none; background: #4caf50; color: white; cursor: pointer; }
+        #btn-no { font-size: 18px; padding: 10px 20px; border-radius: 20px; border: none; background: #f44336; color: white; cursor: pointer; margin-left: 10px; }
 
-        /* --- Puzzle Screen --- */
-        #puzzle-screen { background-color: var(--primary-pink); }
-        .puzzle-container {
-            width: 250px; height: 250px;
-            background: rgba(0,0,0,0.1);
-            border-radius: var(--border-radius-md);
-            position: relative;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3x3 puzzle */
-            grid-template-rows: repeat(3, 1fr);
-            gap: 2px; /* ช่องว่างระหว่างชิ้นจิ๊กซอว์ */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .puzzle-piece {
-            background-image: url('URL_รูปจิ๊กซอว์_ของคุณ'); /* รูปเดียวที่จะถูกตัด */
-            background-size: 300% 300%; /* สำหรับ 3x3 */
-            background-repeat: no-repeat;
-            border: 1px solid rgba(255,255,255,0.3);
-            cursor: grab;
-            transition: transform 0.1s ease;
-        }
-        /* ตำแหน่งของแต่ละชิ้นจิ๊กซอว์ (ต้องกำหนดเอง) */
-        .puzzle-piece:nth-child(1) { background-position: 0% 0%; }
-        .puzzle-piece:nth-child(2) { background-position: 50% 0%; }
-        .puzzle-piece:nth-child(3) { background-position: 100% 0%; }
-        .puzzle-piece:nth-child(4) { background-position: 0% 50%; }
-        .puzzle-piece:nth-child(5) { background-position: 50% 50%; }
-        .puzzle-piece:nth-child(6) { background-position: 100% 50%; }
-        .puzzle-piece:nth-child(7) { background-position: 0% 100%; }
-        .puzzle-piece:nth-child(8) { background-position: 50% 100%; }
-        .puzzle-piece:nth-child(9) { background-position: 100% 100%; }
-        /* สุ่มตำแหน่งเริ่มต้น (จะใช้ JS ในการสุ่ม) */
+        /* --- Page 3: Passcode --- */
+        .passcode-container input { width: 150px; padding: 10px; font-size: 24px; text-align: center; border-radius: 10px; border: 2px solid var(--pink); }
 
-        /* --- Photo Screen --- */
-        #photo-screen .photo-display {
-            width: 90%;
-            max-width: 300px;
-            height: 350px;
-            background: var(--bg-white);
-            border-radius: var(--border-radius-lg);
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        #photo-screen .photo-display img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-        #photo-screen .caption {
-            font-size: 1.2rem;
-            margin-top: 25px;
-            font-weight: bold;
-        }
+        /* --- Page 4: Timer --- */
+        .dog-img { width: 150px; margin-bottom: 20px; }
+        .timer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .timer-box { background: rgba(255,255,255,0.8); padding: 15px; border-radius: 15px; text-align: center; min-width: 80px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 
-        /* --- ปุ่มทั่วไป --- */
-        .btn-action {
-            background: var(--light-text);
-            color: var(--primary-pink);
-            border: none;
-            padding: 12px 30px;
-            border-radius: var(--border-radius-lg);
-            font-weight: bold;
-            font-size: 1rem;
-            margin-top: 30px;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: background 0.2s ease;
-        }
-        .btn-action:active { background: #eee; }
+        /* --- Page 4.5: Chat --- */
+        .chat-container { width: 90%; max-width: 400px; height: 60vh; overflow-y: auto; background: white; border-radius: 20px; padding: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .bubble { padding: 10px 15px; border-radius: 15px; margin: 5px 0; max-width: 70%; word-wrap: break-word; opacity: 0; transform: translateY(10px); transition: all 0.3s; }
+        .left { align-self: flex-start; background: #f1f0f0; border-bottom-left-radius: 2px; }
+        .right { align-self: flex-end; background: #0084ff; color: white; border-bottom-right-radius: 2px; margin-left: auto; }
+        .show { opacity: 1; transform: translateY(0); }
 
+        /* --- Page 5: Puzzle --- */
+        #puzzle-board { width: 300px; height: 300px; position: relative; border: 2px dashed #ccc; }
+        .puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; border: 1px solid white; background-size: 300px 300px; }
+
+        /* --- Page 7: Scratch --- */
+        #scratch-container { position: relative; width: 300px; height: 150px; }
+        #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+        .secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; font-size: 24px; color: #d63384; border-radius: 10px; }
+
+        /* Common Button */
+        .next-btn { margin-top: 20px; padding: 10px 25px; border-radius: 25px; border: none; background: var(--pink); color: white; cursor: pointer; font-weight: bold; }
+        
+        /* Particle Hearts */
+        .heart-particle { position: absolute; color: red; pointer-events: none; animation: fly 1s linear forwards; }
+        @keyframes fly { 
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) translateX(var(--x)) scale(0); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="phone-mockup">
-        <div class="header">
-            <i class="fas fa-arrow-left"></i>
-            <div class="search-bar">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" placeholder="ค้นหาเนื้อหาที่เกี่ยวข้อง" disabled>
+    <section id="page1" class="screen active">
+        <div class="envelope-wrapper" onclick="openEnvelope()">
+            <div class="envelope" id="env">
+                <div class="letter">
+                    <div>
+                        <p>Happy Valentine's Day!</p>
+                        <button class="next-btn" onclick="nextPage(2)">ลองกดตรงนี้</button>
+                    </div>
+                </div>
             </div>
-            <i class="fas fa-ellipsis-h"></i>
+            <p style="text-align:center; margin-top:120px;">To: คนพิเศษ</p>
         </div>
+    </section>
 
-        <div class="main-content">
-
-            <div id="passcode-screen" class="screen active">
-                <div class="passcode-box">
-                    <p>ใส่รหัสเพื่อปลดล็อก ❤️</p>
-                    <div id="dots">_ _ _ _</div>
-                    <div class="keypad" id="keypad">
-                        <button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button>
-                        <button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button>
-                        <button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button>
-                        <span></span><button onclick="press(0)">0</button><span></span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="envelope-screen" class="screen">
-                <div class="envelope-wrapper">
-                    <h2 class="message-title">มีข้อความจากฉันถึงเธอ ❤️</h2>
-                    <div class="envelope" onclick="openEnvelope(this)">
-                        <div class="letter-content">
-                            <h3>Happy Valentine's Day!</h3>
-                            <p>รักเธอที่สุดเลยนะ ขอบคุณสำหรับทุกๆ วันดีๆ ที่มีเธออยู่ข้างๆ</p>
-                            <p>จาก: [ชื่อของคุณ]</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn-action" onclick="nextScreen('timer-screen')" style="display: none;" id="envelope-next-btn">ดูความทรงจำถัดไป</button>
-            </div>
-
-            <div id="timer-screen" class="screen">
-                <div class="timer-card">
-                    <div style="font-size: 50px;">🐶</div>
-                    <h2>เราคบกันมาแล้ว</h2>
-                    <div class="timer-grid">
-                        <div class="time-box"><span id="days">0</span>วัน</div>
-                        <div class="time-box"><span id="hours">0</span>ชั่วโมง</div>
-                        <div class="time-box"><span id="mins">0</span>นาที</div>
-                        <div class="time-box"><span id="secs">0</span>วินาที</div>
-                    </div>
-                    <button class="btn-action" onclick="nextScreen('puzzle-screen')">ต่อไป</button>
-                </div>
-            </div>
-
-            <div id="puzzle-screen" class="screen">
-                <h2>ต่อจิ๊กซอว์รูปเราสิ ❤️</h2>
-                <p>ลากชิ้นส่วนเพื่อต่อรูปภาพให้สมบูรณ์</p>
-                <div class="puzzle-container" id="puzzle-container">
-                    </div>
-                <button class="btn-action" onclick="nextScreen('photo-screen')" style="display: none;" id="puzzle-next-btn">รูปภาพของเรา</button>
-            </div>
-
-            <div id="photo-screen" class="screen">
-                <div class="photo-display">
-                    <img src="URL_รูปคู่_ของคุณ" alt="Our Couple Photo">
-                </div>
-                <p class="caption">"รักที่สุดเลยนะ ❤️"</p>
-                <button class="btn-action" onclick="location.reload()">เริ่มต้นใหม่</button>
-            </div>
-
+    <section id="page2" class="screen">
+        <h2 id="q2">พร้อมจะย้อนไปดูความทรงจำหรือยัง?</h2>
+        <div style="display:flex; align-items:center;">
+            <button id="btn-yes" onclick="nextPage(3)">พร้อมแล้ว</button>
+            <button id="btn-no" onclick="increaseYes()">ไม่</button>
         </div>
+    </section>
 
-        <div class="footer">
-            <div class="footer-item active"><i class="fas fa-home"></i><span>Home</span></div>
-            <div class="footer-item"><i class="fas fa-users"></i><span>Friends</span></div>
-            <div class="footer-item"><i class="fas fa-plus-square"></i><span>Add</span></div>
-            <div class="footer-item"><i class="fas fa-heart"></i><span>Likes</span></div>
-            <div class="footer-item"><i class="fas fa-user-circle"></i><span>Profile</span></div>
+    <section id="page3" class="screen">
+        <h2 id="pass-hint">ลองเดาดูสิ</h2>
+        <div class="passcode-container">
+            <input type="password" id="pass-input" maxlength="4" placeholder="****">
         </div>
-    </div>
+        <button class="next-btn" onclick="checkPass()">ตกลง</button>
+    </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/Draggable.min.js"></script>
+    <section id="page4" class="screen">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnd4eDdzbjN3Ym53eHh3eHh3eHh3eHh3eHh3eHh3eHh3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/L95W4wv8nNbzSCpxS4/giphy.gif" class="dog-img"> <h2>เราคุยกันมาแล้ว</h2>
+        <div class="timer-grid">
+            <div class="timer-box"><div id="d">0</div><span>วัน</span></div>
+            <div class="timer-box"><div id="h">0</div><span>ชั่วโมง</span></div>
+            <div class="timer-box"><div id="m">0</div><span>นาที</span></div>
+            <div class="timer-box"><div id="s">0</div><span>วินาที</span></div>
+        </div>
+        <button class="next-btn" onclick="nextPage(4.5)">ดูความทรงจำของเรา →</button>
+    </section>
+
+    <section id="page4.5" class="screen">
+        <div class="chat-container" id="chat-box">
+            </div>
+        <button id="chat-next" class="next-btn" style="display:none;" onclick="nextPage(5)">ไปต่อ</button>
+    </section>
+
+    <section id="page5" class="screen">
+        <h2>ต่อจิ๊กซอว์สิ!</h2>
+        <div id="puzzle-board"></div>
+        <button id="puzzle-next" class="next-btn" style="display:none;" onclick="nextPage(6)">ความในใจสุดท้าย...</button>
+    </section>
+
+    <section id="page6" class="screen" style="padding: 20px; text-align: center;">
+        <h2>ความในใจที่อยากจะบอก</h2>
+        <p style="line-height: 1.8; font-size: 1.2rem;">
+            สุขสันต์วันวาเลนไทน์น้าา ขอบคุณที่เข้ามาเป็นหนึ่งในความสุขของพี่ ขอให้หนูร่าเริงแล้วก็สดใสแบบนี้ไปนานๆน้า
+        </p>
+        <button class="next-btn" onclick="nextPage(7)">มีความลับจะบอก...</button>
+    </section>
+
+    <section id="page7" class="screen">
+        <h2>ขูดเพื่อดูข้อความ</h2>
+        <div id="scratch-container">
+            <div class="secret-text">พี่หลงรักหนูงับ</div>
+            <canvas id="scratch-canvas" width="300" height="150"></canvas>
+        </div>
+        <p style="margin-top:20px; color:#888;">ขูดให้ทั่วเลยนะ!</p>
+    </section>
+
     <script>
-        // --- Global Variables ---
-        let currentScreen = 'passcode-screen'; // หน้าเริ่มต้น
-        const correctPin = "1402"; // รหัสผ่าน (เปลี่ยนได้)
-        const startDate = new Date(2025, 1, 14, 0, 0, 0); // วันที่เริ่มคบกัน (ปี, เดือน-1, วัน, ชม., น.)
-        let inputPin = "";
-        let puzzleSolved = false;
-
-        // --- Function: เปลี่ยนหน้า ---
-        function nextScreen(screenId) {
-            document.getElementById(currentScreen).classList.remove('active');
-            document.getElementById(screenId).classList.add('active');
-            currentScreen = screenId;
-
-            if (screenId === 'timer-screen') startTimer();
-            if (screenId === 'puzzle-screen') initializePuzzle();
+        // --- Navigation ---
+        function nextPage(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById('page' + num);
+            if(target) target.classList.add('active');
+            
+            if(num === 4) startTimer();
+            if(num === 4.5) startChat();
+            if(num === 5) initPuzzle();
+            if(num === 7) initScratch();
         }
 
-        // --- Screen 1: Passcode Logic ---
-        function press(num) {
-            inputPin += num;
-            document.getElementById('dots').innerText = "* ".repeat(inputPin.length) + "_ ".repeat(4 - inputPin.length);
+        // --- Page 1: Hearts ---
+        function openEnvelope() {
+            document.getElementById('env').classList.add('open');
+            for(let i=0; i<15; i++) createHeart();
+        }
+        function createHeart() {
+            const h = document.createElement('div');
+            h.innerHTML = '❤️';
+            h.className = 'heart-particle';
+            h.style.left = '50%';
+            h.style.top = '50%';
+            h.style.setProperty('--x', (Math.random()*200 - 100) + 'px');
+            document.getElementById('page1').appendChild(h);
+            setTimeout(() => h.remove(), 1000);
+        }
 
-            if (inputPin.length === 4) {
-                if (inputPin === correctPin) {
-                    setTimeout(() => nextScreen('envelope-screen'), 300);
-                } else {
-                    alert("รหัสผิด ลองใหม่นะ!");
-                    inputPin = "";
-                    document.getElementById('dots').innerText = "_ _ _ _";
-                }
+        // --- Page 2: No Button Logic ---
+        let noCount = 0;
+        function increaseYes() {
+            noCount++;
+            const yes = document.getElementById('btn-yes');
+            const no = document.getElementById('btn-no');
+            yes.style.transform = `scale(${1 + noCount * 1.5})`;
+            no.style.transform = `translateX(${noCount * 20}px)`;
+            if(noCount >= 5) {
+                no.style.display = 'none';
+                yes.style.position = 'fixed';
+                yes.style.top = '0'; yes.style.left = '0';
+                yes.style.width = '100vw'; yes.style.height = '100vh';
+                yes.style.zIndex = '99';
             }
         }
 
-        // --- Screen 2: Envelope Logic ---
-        function openEnvelope(envelopeElement) {
-            envelopeElement.classList.add('open');
-            setTimeout(() => {
-                document.getElementById('envelope-next-btn').style.display = 'block';
-            }, 1000); // ให้ปุ่มโผล่มาหลังจดหมายเปิด
+        // --- Page 3: Passcode ---
+        function checkPass() {
+            const val = document.getElementById('pass-input').value;
+            if(val === "1402") { // เปลี่ยนรหัสที่นี่
+                nextPage(4);
+            } else {
+                document.getElementById('pass-hint').innerText = "คำใบ้: วันนี้วันอะไร?";
+                document.getElementById('pass-input').value = "";
+            }
         }
 
-        // --- Screen 3: Timer Logic ---
-        let timerInterval;
+        // --- Page 4: Timer ---
         function startTimer() {
-            if (timerInterval) clearInterval(timerInterval); // Clear existing interval if any
-            timerInterval = setInterval(() => {
+            const startDate = new Date('2026-02-08T00:00:00'); // EDIT HERE: วันเริ่มคุย
+            setInterval(() => {
                 const now = new Date();
                 const diff = now - startDate;
-
-                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                const m = Math.floor((diff / 1000 / 60) % 60);
-                const s = Math.floor((diff / 1000) % 60);
-
-                document.getElementById('days').innerText = d;
-                document.getElementById('hours').innerText = h;
-                document.getElementById('mins').innerText = m;
-                document.getElementById('secs').innerText = s;
+                document.getElementById('d').innerText = Math.floor(diff / (1000*60*60*24));
+                document.getElementById('h').innerText = Math.floor((diff / (1000*60*60)) % 24);
+                document.getElementById('m').innerText = Math.floor((diff / (1000*60)) % 60);
+                document.getElementById('s').innerText = Math.floor((diff / 1000) % 60);
             }, 1000);
         }
 
-        // --- Screen 4: Puzzle Logic ---
-        let puzzlePieces = [];
-        let shuffledPositions = [];
-        const PUZZLE_SIZE = 3; // For a 3x3 puzzle
-
-        function initializePuzzle() {
-            const container = document.getElementById('puzzle-container');
-            container.innerHTML = ''; // Clear previous pieces
-
-            puzzlePieces = [];
-            for (let i = 0; i < PUZZLE_SIZE * PUZZLE_SIZE; i++) {
-                const piece = document.createElement('div');
-                piece.classList.add('puzzle-piece');
-                piece.dataset.index = i; // Store correct index
-                // Calculate background position for each piece
-                const col = i % PUZZLE_SIZE;
-                const row = Math.floor(i / PUZZLE_SIZE);
-                piece.style.backgroundPosition = `${(col / (PUZZLE_SIZE - 1)) * 100}% ${(row / (PUZZLE_SIZE - 1)) * 100}%`;
-                piece.style.backgroundSize = `${PUZZLE_SIZE * 100}% ${PUZZLE_SIZE * 100}%`;
-                piece.style.backgroundImage = "url('URL_รูปจิ๊กซอว์_ของคุณ')"; // **ใส่รูปจิ๊กซอว์ตรงนี้**
-                
-                puzzlePieces.push(piece);
-            }
-
-            shufflePieces(); // สุ่มตำแหน่ง
-            renderPuzzle();
-            makePiecesDraggable();
-        }
-
-        function shufflePieces() {
-            shuffledPositions = Array.from({ length: puzzlePieces.length }, (_, i) => i);
-            for (let i = shuffledPositions.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffledPositions[i], shuffledPositions[j]] = [shuffledPositions[j], shuffledPositions[i]];
-            }
-        }
-
-        function renderPuzzle() {
-            const container = document.getElementById('puzzle-container');
-            container.innerHTML = '';
-            shuffledPositions.forEach(originalIndex => {
-                container.appendChild(puzzlePieces[originalIndex]);
-            });
-        }
-
-        function makePiecesDraggable() {
-            gsap.registerPlugin(Draggable);
-            Draggable.create(".puzzle-piece", {
-                bounds: "#puzzle-container",
-                onDragEnd: function() {
-                    // This is a simplified check. A proper puzzle check needs to verify positions.
-                    // For now, let's assume if they drag, they are trying to solve it.
-                    checkPuzzleCompletion();
+        // --- Page 4.5: Chat ---
+        const msgs = [
+            {t: "😊", s: "right"}, {t: "ดีครับบ", s: "left"}, {t: "ดีค้าบ", s: "right"},
+            {t: "ชื่ออาราย", s: "right"}, {t: "ปามมี่ค้าบบ", s: "left"}, {t: "หวัดดีแบงค์", s: "left"},
+            {t: "เรากันน", s: "right"}, {t: "5555555555555555", s: "right"}, {t: "พลาด", s: "left"},
+            {t: "เอ้าดูชื่อดิ", s: "left"}, {t: "ขอโทษค้าบบบ", s: "left"}, {t: "ละพิมพ์แบบมั่นใจด้วย", s: "right"},
+            {t: "น่ารักงับบ", s: "right"}
+        ];
+        function startChat() {
+            const box = document.getElementById('chat-box');
+            let i = 0;
+            const interval = setInterval(() => {
+                if(i < msgs.length) {
+                    const b = document.createElement('div');
+                    b.className = `bubble ${msgs[i].s}`;
+                    b.innerText = msgs[i].t;
+                    box.appendChild(b);
+                    setTimeout(() => b.classList.add('show'), 10);
+                    box.scrollTop = box.scrollHeight;
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('chat-next').style.display = 'block';
                 }
-            });
+            }, 1000);
         }
 
-        function checkPuzzleCompletion() {
-            // A more robust check would involve comparing each piece's final position/index
-            // to its correct original index within the container's grid.
-            // For simplicity, we'll just enable the next button after a few drags.
-            // In a real puzzle, you'd calculate if all pieces are in their correct spots.
+        // --- Page 5: Puzzle ---
+        function initPuzzle() {
+            const board = document.getElementById('puzzle-board');
+            const imgUrl = "https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=300&h=300&fit=crop"; // EDIT HERE: รูปช่อดอกไม้
+            let solved = 0;
+            for(let i=0; i<9; i++) {
+                const p = document.createElement('div');
+                p.className = 'puzzle-piece';
+                p.style.backgroundImage = `url(${imgUrl})`;
+                p.style.backgroundPosition = `${-(i%3)*100}px ${-Math.floor(i/3)*100}px`;
+                p.style.left = Math.random()*200 + 'px';
+                p.style.top = Math.random()*200 + 'px';
+                p.draggable = true;
+                
+                // Simple Drag Logic for Mobile/Web
+                p.onmousedown = dragMouseDown;
+                board.appendChild(p);
 
-            // Simulate completion for now
-            if (!puzzleSolved) {
-                setTimeout(() => {
-                    alert("ยอดเยี่ยม! ต่อรูปภาพสำเร็จแล้ว!");
-                    puzzleSolved = true;
-                    document.getElementById('puzzle-next-btn').style.display = 'block';
-                }, 500); // Small delay to simulate check
+                function dragMouseDown(e) {
+                    let pos1 = 0, pos2 = 0, pos3 = e.clientX, pos4 = e.clientY;
+                    document.onmousemove = (e) => {
+                        pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+                        pos3 = e.clientX; pos4 = e.clientY;
+                        p.style.top = (p.offsetTop - pos2) + "px";
+                        p.style.left = (p.offsetLeft - pos1) + "px";
+                    };
+                    document.onmouseup = () => {
+                        document.onmousemove = null;
+                        // Check if close to target (Simplified)
+                        const targetX = (i%3)*100; const targetY = Math.floor(i/3)*100;
+                        if(Math.abs(p.offsetLeft - targetX) < 20 && Math.abs(p.offsetTop - targetY) < 20) {
+                            p.style.left = targetX + 'px'; p.style.top = targetY + 'px';
+                            p.onmousedown = null; solved++;
+                            if(solved === 9) { 
+                                alert("Happy Valentine's Day! ❤️");
+                                document.getElementById('puzzle-next').style.display = 'block';
+                            }
+                        }
+                    };
+                }
             }
         }
 
+        // --- Page 7: Scratch Card ---
+        function initScratch() {
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#C0C0C0';
+            ctx.fillRect(0, 0, 300, 150);
+            ctx.globalCompositeOperation = 'destination-out';
 
-        // --- Initialize on load ---
-        document.addEventListener('DOMContentLoaded', () => {
-            nextScreen('passcode-screen'); // เริ่มที่หน้า passcode
-        });
+            function scratch(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                ctx.beginPath();
+                ctx.arc(x, y, 20, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('touchmove', scratch);
+        }
     </script>
 </body>
 </html>
