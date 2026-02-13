@@ -1,30 +1,42 @@
-/* --- 1. ตั้งค่าพื้นฐาน --- */
 :root {
     --pink: #ffafbd;
     --deep-pink: #ff8e9b;
     --text-pink: #d63384;
 }
 
-body, html { 
-    margin: 0; padding: 0; width: 100%; height: 100%; 
-    font-family: 'Kanit', sans-serif; background: #fdf2f2; overflow: hidden; 
-}
-
-/* ตั้งค่าหน้าจอ (Screen) ให้แสดงทีละหน้า */
-.screen { 
-    display: none; width: 100%; height: 100vh; 
-    flex-direction: column; align-items: center; justify-content: center; 
-    position: absolute; 
-}
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kanit', sans-serif; background: #fdf2f2; overflow-x: hidden; }
+.screen { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; position: absolute; }
 .active { display: flex; }
 
-/* --- 2. ตกแต่งซองจดหมาย --- */
+/* Envelope Setup */
 .envelope-container { position: relative; width: 300px; height: 200px; cursor: pointer; }
+.envelope-wrapper { position: relative; width: 100%; height: 100%; transition: transform 0.8s ease-in-out; }
 
-/* envelope-wrapper: ส่วนนี้จะเลื่อนลง 40px เมื่อเปิดซอง */
-.envelope-wrapper { 
-    position: relative; width: 100%; height: 100%; 
-    transition: transform 0.8s ease-in-out; 
+.envelope-back { position: absolute; width: 100%; height: 100%; background: #ffb7c5; z-index: 1; border-radius: 0 0 5px 5px; }
+
+.envelope-front {
+    position: absolute; width: 100%; height: 100%;
+    z-index: 3;
+    background: #ffafbd;
+    clip-path: polygon(0 35%, 50% 70%, 100% 35%, 100% 100%, 0 100%); /* ทำเป็นรูปทรงซองหน้า */
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+/* หัวใจตรงกลางซอง */
+.heart-pulse {
+    font-size: 40px;
+    margin-top: 30px;
+    animation: heartBeat 0.8s infinite alternate;
+    pointer-events: none;
+}
+@keyframes heartBeat { from { transform: scale(1); } to { transform: scale(1.2); } }
+
+/* ข้อความ To: อยู่ล่างหัวใจ */
+.envelope-label {
+    color: var(--text-pink);
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 10px;
 }
 
 .lid {
@@ -34,47 +46,35 @@ body, html {
     z-index: 4; transform-origin: top; transition: transform 0.7s ease-in-out;
 }
 
-.envelope-back {
-    position: absolute; width: 100%; height: 100%; background: #ffb7c5; 
-    z-index: 1; border-radius: 0 0 5px 5px;
-}
-
-.envelope-front {
-    position: absolute; width: 0; height: 0;
-    border-top: 100px solid transparent;
-    border-left: 150px solid #ffafbd; border-right: 150px solid #ffafbd;
-    border-bottom: 100px solid #ffafbd;
-    z-index: 3; border-radius: 0 0 5px 5px;
-}
-
-/* --- 3. หัวใจดุ๊กดิ๊กและข้อความ --- */
-.heart-pulse {
-    position: absolute; top: 30px; left: -15px; font-size: 30px;
-    animation: heartBeat 0.8s infinite alternate; /* สั่งให้เต้นเข้าออก */
-    z-index: 5; pointer-events: none;
-}
-@keyframes heartBeat {
-    from { transform: scale(1); } to { transform: scale(1.3); }
-}
-
-.envelope-label {
-    position: absolute; bottom: -80px; left: -130px; width: 200px;
-    color: var(--text-pink); font-weight: bold; font-size: 1.1rem;
-    z-index: 5;
-}
-
-/* --- 4. กระดาษจดหมายและการหน่วงเวลา --- */
 .letter {
     position: absolute; top: 10px; left: 15px; width: 270px; height: 180px;
     background: white; z-index: 2; display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
     box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 10px; box-sizing: border-box;
-    /* transition: เลื่อนขึ้นหลังจากฝาเปิด (0.7s) และเปลี่ยนเลเยอร์มาหน้าสุด (1s) */
     transition: transform 1s ease-in-out 0.7s, z-index 0s linear 1s;
 }
 
-/* --- 5. คำสั่งเมื่อกดเปิด (.open) --- */
-.open .lid { transform: rotateX(180deg); z-index: 1; } /* พลิกฝาซองไปหลังสุด */
-.open .envelope-wrapper { transform: translateY(50px); } /* ตัวซองทั้งหมดเลื่อนลง */
-.open .letter { transform: translateY(-190px); z-index: 10; } /* กระดาษเลื่อนขึ้น */
-.open .heart-pulse, .open .envelope-label { opacity: 0; transition: opacity 0.4s; } /* ซ่อนหัวใจ/To: */
+/* เมื่อเปิดซอง */
+.open .lid { transform: rotateX(180deg); z-index: 1; }
+.open .envelope-wrapper { transform: translateY(60px); } /* ซองเลื่อนลง */
+.open .letter { transform: translateY(-200px); z-index: 10; } /* จดหมายเลื่อนขึ้น */
+.open .envelope-front { opacity: 0.9; }
+
+/* หัวใจกระจาย */
+.heart { position: absolute; font-size: 20px; color: #ff4d6d; pointer-events: none; z-index: 11; animation: floatUp 1.5s ease-out forwards; }
+@keyframes floatUp { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
+
+/* ปุ่มและหน้าอื่นๆ */
+.next-btn { margin-top: 15px; padding: 10px 20px; border-radius: 20px; border: none; background: var(--deep-pink); color: white; cursor: pointer; font-weight: bold; }
+.timer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+.timer-box { background: white; padding: 10px; border-radius: 10px; text-align: center; min-width: 70px; }
+.chat-container { width: 90%; max-width: 350px; height: 50vh; overflow-y: auto; background: #fff; border-radius: 15px; padding: 10px; display: flex; flex-direction: column; }
+.bubble { padding: 8px 12px; border-radius: 15px; margin: 4px 0; max-width: 80%; font-size: 14px; opacity: 0; transform: translateY(5px); transition: 0.3s; }
+.left { align-self: flex-start; background: #eee; }
+.right { align-self: flex-end; background: var(--deep-pink); color: white; }
+.show { opacity: 1; transform: translateY(0); }
+#puzzle-board { width: 300px; height: 300px; position: relative; border: 2px solid #ffb7c5; background: #fff; margin-top: 10px; }
+.puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; background-size: 300px 300px; touch-action: none; border: 0.5px solid #eee; }
+#scratch-container { position: relative; width: 300px; height: 150px; background: white; border-radius: 10px; overflow: hidden; margin-top: 20px; }
+#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
+.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #ff4d6d; font-weight: bold; }
