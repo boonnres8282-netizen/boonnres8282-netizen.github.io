@@ -1,5 +1,5 @@
 function openEnvelope() {
-    const wrap = document.getElementById('env-wrap');
+    const wrap = document.getElementById('page1');
     if (!wrap.classList.contains('open')) {
         wrap.classList.add('open');
         document.getElementById('click-hint').style.display = 'none';
