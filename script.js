@@ -9,12 +9,12 @@ function nextPage(num) {
     if(num === 7) initScratch();
 }
 
-// หน้า 1: ซองจดหมาย
 function openEnvelope() {
     const wrapper = document.getElementById('env-wrap');
     if (!wrapper.classList.contains('open')) {
         wrapper.classList.add('open');
         document.getElementById('click-hint').style.opacity = '0';
+        // สร้างหัวใจกระจาย
         for (let i = 0; i < 20; i++) {
             setTimeout(createHeart, i * 50);
         }
