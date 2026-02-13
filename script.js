@@ -1,12 +1,16 @@
 function openEnvelope() {
-    document.querySelector('.envelope-wrapper').classList.add('open');
-    document.getElementById('click-hint').style.display = 'none';
+    const wrapper = document.querySelector('.envelope-wrapper');
+    if (!wrapper.classList.contains('open')) {
+        wrapper.classList.add('open');
+        document.getElementById('click-hint').style.display = 'none';
+    }
 }
 
 function nextPage(num) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = (num === 4.5) ? 'page4.5' : 'page' + num;
     document.getElementById(target).classList.add('active');
+    
     if (num === 4) startTimer();
     if (num === 4.5) startChat();
     if (num === 5) initPuzzle();
@@ -15,7 +19,7 @@ function nextPage(num) {
 
 function checkPass() {
     if (document.getElementById('pass-input').value === "1402") nextPage(4);
-    else alert("รหัสผิดนะ ลองใหม่ดูจ้า");
+    else alert("รหัสไม่ถูกต้อง ลองใหม่นะ!");
 }
 
 function startTimer() {
