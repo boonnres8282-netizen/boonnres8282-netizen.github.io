@@ -1,4 +1,3 @@
-// --- Navigation ---
 function nextPage(num) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const targetId = num === 4.5 ? 'page4.5' : 'page' + num;
@@ -10,14 +9,13 @@ function nextPage(num) {
     if(num === 7) initScratch();
 }
 
-// --- Page 1: Envelope Animation ---
+// หน้า 1: ซองจดหมาย
 function openEnvelope() {
     const wrapper = document.getElementById('env-wrap');
     if (!wrapper.classList.contains('open')) {
         wrapper.classList.add('open');
         document.getElementById('click-hint').style.opacity = '0';
-        // กระจายหัวใจ
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 20; i++) {
             setTimeout(createHeart, i * 50);
         }
     }
@@ -35,7 +33,7 @@ function createHeart() {
     setTimeout(() => heart.remove(), 1500);
 }
 
-// --- Page 2: No Button Logic ---
+// หน้า 2: ปุ่ม No
 let noCount = 0;
 function increaseYes() {
     noCount++;
@@ -45,25 +43,19 @@ function increaseYes() {
     no.style.opacity = 1 - (noCount * 0.2);
     if(noCount >= 5) {
         no.style.display = 'none';
-        yes.style.position = 'fixed';
-        yes.style.top = '0'; yes.style.left = '0';
-        yes.style.width = '100vw'; yes.style.height = '100vh';
-        yes.style.zIndex = '999';
+        yes.style.position = 'fixed'; yes.style.top = '0'; yes.style.left = '0';
+        yes.style.width = '100vw'; yes.style.height = '100vh'; yes.style.zIndex = '999';
     }
 }
 
-// --- Page 3: Passcode (แก้รหัสได้ที่นี่) ---
+// หน้า 3: รหัสผ่าน
 function checkPass() {
     const val = document.getElementById('pass-input').value;
-    if(val === "1402") { // เปลี่ยนเป็นรหัสของคุณ
-        nextPage(4);
-    } else {
-        document.getElementById('pass-hint').innerText = "คำใบ้: วันนี้วันอะไร?";
-        document.getElementById('pass-input').value = "";
-    }
+    if(val === "1402") { nextPage(4); }
+    else { document.getElementById('pass-hint').innerText = "รหัสผิด! ใบ้ให้: วันนี้วันอะไร?"; }
 }
 
-// --- Page 4: Timer ---
+// หน้า 4: นับเวลา
 function startTimer() {
     const startDate = new Date('2026-02-08T00:00:00'); 
     setInterval(() => {
@@ -76,7 +68,7 @@ function startTimer() {
     }, 1000);
 }
 
-// --- Page 4.5: Chat Logic ---
+// หน้า 4.5: แชท
 const msgs = [
     {t: "😊", s: "right"}, {t: "ดีครับบ", s: "left"}, {t: "ดีค้าบ", s: "right"},
     {t: "ชื่ออาราย", s: "right"}, {t: "ปามมี่ค้าบบ", s: "left"}, {t: "หวัดดีแบงค์", s: "left"},
@@ -88,7 +80,7 @@ function startChat() {
     const box = document.getElementById('chat-box');
     if(box.children.length > 0) return;
     let i = 0;
-    const interval = setInterval(() => {
+    const itv = setInterval(() => {
         if(i < msgs.length) {
             const b = document.createElement('div');
             b.className = `bubble ${msgs[i].s}`;
@@ -97,18 +89,14 @@ function startChat() {
             setTimeout(() => b.classList.add('show'), 50);
             box.scrollTop = box.scrollHeight;
             i++;
-        } else {
-            clearInterval(interval);
-            document.getElementById('chat-next').style.display = 'block';
-        }
+        } else { clearInterval(itv); document.getElementById('chat-next').style.display = 'block'; }
     }, 1200);
 }
 
-// --- Page 5: Puzzle ---
+// หน้า 5: จิ๊กซอว์
 function initPuzzle() {
     const board = document.getElementById('puzzle-board');
     if(board.children.length > 0) return;
-    // เปลี่ยนรูปจิ๊กซอว์ตรงนี้
     const imgUrl = "https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=300&h=300&fit=crop"; 
     let solved = 0;
     for(let i=0; i<9; i++) {
@@ -116,31 +104,25 @@ function initPuzzle() {
         p.className = 'puzzle-piece';
         p.style.backgroundImage = `url(${imgUrl})`;
         p.style.backgroundPosition = `${-(i%3)*100}px ${-Math.floor(i/3)*100}px`;
-        p.style.left = Math.random()*200 + 'px';
-        p.style.top = Math.random()*200 + 'px';
-        
+        p.style.left = Math.random()*200 + 'px'; p.style.top = Math.random()*200 + 'px';
         p.onmousedown = p.ontouchstart = (e) => {
             e.preventDefault();
             let moveEvent = e.type === 'mousedown' ? 'mousemove' : 'touchmove';
             let upEvent = e.type === 'mousedown' ? 'mouseup' : 'touchend';
             const onMove = (me) => {
-                let clientX = me.clientX || me.touches[0].clientX;
-                let clientY = me.clientY || me.touches[0].clientY;
-                let rect = board.getBoundingClientRect();
-                p.style.left = (clientX - rect.left - 50) + "px";
-                p.style.top = (clientY - rect.top - 50) + "px";
+                let cx = me.clientX || me.touches[0].clientX;
+                let cy = me.clientY || me.touches[0].clientY;
+                let r = board.getBoundingClientRect();
+                p.style.left = (cx - r.left - 50) + "px"; p.style.top = (cy - r.top - 50) + "px";
             };
             document.addEventListener(moveEvent, onMove);
             document.onmouseup = document.ontouchend = () => {
                 document.removeEventListener(moveEvent, onMove);
-                const targetX = (i%3)*100; const targetY = Math.floor(i/3)*100;
-                if(Math.abs(parseInt(p.style.left) - targetX) < 35 && Math.abs(parseInt(p.style.top) - targetY) < 35) {
-                    p.style.left = targetX + 'px'; p.style.top = targetY + 'px';
+                const tx = (i%3)*100; const ty = Math.floor(i/3)*100;
+                if(Math.abs(parseInt(p.style.left) - tx) < 30 && Math.abs(parseInt(p.style.top) - ty) < 30) {
+                    p.style.left = tx + 'px'; p.style.top = ty + 'px';
                     p.style.pointerEvents = "none"; solved++;
-                    if(solved === 9) {
-                        alert("Happy Valentine's Day! ❤️");
-                        document.getElementById('puzzle-next').style.display = 'block';
-                    }
+                    if(solved === 9) { document.getElementById('puzzle-next').style.display = 'block'; }
                 }
             };
         };
@@ -148,7 +130,7 @@ function initPuzzle() {
     }
 }
 
-// --- Page 7: Scratch ---
+// หน้า 7: ขูด
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
@@ -156,12 +138,10 @@ function initScratch() {
     ctx.fillRect(0, 0, 300, 150);
     ctx.globalCompositeOperation = 'destination-out';
     const scratch = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
-        ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
+        const r = canvas.getBoundingClientRect();
+        const cx = e.clientX || (e.touches && e.touches[0].clientX);
+        const cy = e.clientY || (e.touches && e.touches[0].clientY);
+        ctx.beginPath(); ctx.arc(cx - r.left, cy - r.top, 20, 0, Math.PI * 2); ctx.fill();
     };
     canvas.addEventListener('mousemove', scratch);
     canvas.addEventListener('touchmove', scratch);
