@@ -8,17 +8,18 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kan
 .screen { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; position: absolute; }
 .active { display: flex; }
 
-/* Envelope Section */
+/* Envelope Setup */
 .envelope-container { position: relative; width: 300px; height: 200px; cursor: pointer; }
 .envelope-wrapper { position: relative; width: 100%; height: 100%; }
 
+/* ลำดับชั้น: lid(4) > front(3) > letter(2) > back(1) */
 .lid {
     position: absolute; top: 0; left: 0; width: 0; height: 0;
     border-top: 110px solid var(--deep-pink);
     border-left: 150px solid transparent;
     border-right: 150px solid transparent;
     z-index: 4; transform-origin: top;
-    transition: transform 0.7s ease-in-out; /* ฝาใช้เวลาเปิด 0.7 วินาที */
+    transition: transform 0.8s ease-in-out;
 }
 
 .envelope-back {
@@ -38,41 +39,36 @@ body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kan
 .envelope-label {
     position: absolute; bottom: 20px; left: 20px;
     z-index: 5; color: var(--text-pink); font-weight: bold; font-size: 1.1rem;
-    transition: opacity 0.3s;
+    transition: opacity 0.5s;
 }
 
 .letter {
     position: absolute; top: 10px; left: 15px; width: 270px; height: 180px;
     background: white; z-index: 2; display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
+    /* หน่วงเวลากระดาษ 0.6s เพื่อให้ฝาเปิดเกือบสุดก่อนค่อยเลื่อน */
+    transition: transform 1s ease-in-out 0.6s, z-index 0s linear 0.9s;
     box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 10px; box-sizing: border-box;
-    /* หน่วงเวลากระดาษ 0.7s (ให้ฝาเปิดก่อน) แล้วใช้เวลาเลื่อนขึ้น 1s */
-    transition: transform 1s ease-in-out 0.7s, z-index 0s linear 1s;
 }
 
-/* สถานะเมื่อกดเปิด */
+/* Open States */
 .open .lid { transform: rotateX(180deg); z-index: 1; }
 .open .letter { transform: translateY(-140px); z-index: 10; }
 .open .envelope-label { opacity: 0; }
 
-/* หัวใจกระจาย */
+/* Others */
 .heart { position: absolute; font-size: 20px; color: #ff4d6d; pointer-events: none; z-index: 11; animation: floatUp 1.5s ease-out forwards; }
-@keyframes floatUp { 
-    0% { transform: translate(0, 0) scale(1); opacity: 1; } 
-    100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } 
-}
-
-/* ส่วนอื่นๆ */
+@keyframes floatUp { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
 .next-btn { margin-top: 15px; padding: 10px 20px; border-radius: 20px; border: none; background: var(--deep-pink); color: white; cursor: pointer; font-weight: bold; }
 .timer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.timer-box { background: white; padding: 10px; border-radius: 10px; text-align: center; min-width: 75px; }
-.chat-container { width: 90%; max-width: 380px; height: 55vh; overflow-y: auto; background: #fff; border-radius: 20px; padding: 10px; display: flex; flex-direction: column; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
-.bubble { padding: 10px 14px; border-radius: 18px; margin: 5px 0; max-width: 75%; font-size: 14px; opacity: 0; transform: translateY(10px); transition: 0.3s; }
-.left { align-self: flex-start; background: #e9e9eb; }
-.right { align-self: flex-end; background: var(--deep-pink); color: white; }
-.show { opacity: 1; transform: translateY(0); }
-#puzzle-board { width: 300px; height: 300px; position: relative; border: 2px solid #ffb7c5; background: #fff; margin-top: 20px; }
+.timer-box { background: white; padding: 10px; border-radius: 10px; text-align: center; min-width: 70px; }
+#puzzle-board { width: 300px; height: 300px; position: relative; border: 2px solid #ffb7c5; background: #fff; }
 .puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; background-size: 300px 300px; touch-action: none; border: 0.5px solid #eee; }
 #scratch-container { position: relative; width: 300px; height: 150px; background: white; border-radius: 10px; overflow: hidden; }
 #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
-.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ff4d6d; font-weight: bold; }
+.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #ff4d6d; font-weight: bold; }
+.chat-container { width: 90%; max-width: 350px; height: 50vh; overflow-y: auto; background: #fff; border-radius: 15px; padding: 10px; display: flex; flex-direction: column; }
+.bubble { padding: 8px 12px; border-radius: 15px; margin: 4px 0; max-width: 80%; font-size: 14px; opacity: 0; transform: translateY(5px); transition: 0.3s; }
+.left { align-self: flex-start; background: #eee; }
+.right { align-self: flex-end; background: var(--deep-pink); color: white; }
+.show { opacity: 1; transform: translateY(0); }
