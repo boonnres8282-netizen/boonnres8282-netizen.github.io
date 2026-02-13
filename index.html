@@ -3,138 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️</title>
-    <style>
-        :root {
-            --pink: #ffafbd;
-            --deep-pink: #ff8e9b;
-            --white: #ffffff;
-        }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-family: 'Kanit', sans-serif;
-            overflow: hidden;
-            background: #fdf2f2;
-        }
-
-        .screen {
-            display: none;
-            width: 100%;
-            height: 100vh;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            transition: all 0.5s ease;
-        }
-
-        .active { display: flex; }
-
-        /* --- Page 1: Envelope --- */
-        .envelope-wrapper {
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .envelope {
-            position: relative;
-            width: 250px;
-            height: 180px;
-            background: #f39c12; /* ซองสีเหลืองทอง/ชมพู */
-            background-color: #ffb7c5;
-        }
-        .envelope:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            border-top: 100px solid #ff8e9b;
-            border-left: 125px solid transparent;
-            border-right: 125px solid transparent;
-            transition: transform 0.5s;
-            transform-origin: top;
-            z-index: 3;
-        }
-        .open.envelope:before { transform: rotateX(180deg); }
-        .letter {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            width: 230px;
-            height: 150px;
-            background: white;
-            z-index: 2;
-            transition: transform 0.8s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .open .letter { transform: translateY(-100px); }
-
-        /* --- Page 2: Yes/No --- */
-        #btn-yes { transition: all 0.2s; font-size: 18px; padding: 10px 20px; border-radius: 20px; border: none; background: #4caf50; color: white; cursor: pointer; }
-        #btn-no { font-size: 18px; padding: 10px 20px; border-radius: 20px; border: none; background: #f44336; color: white; cursor: pointer; margin-left: 10px; }
-
-        /* --- Page 3: Passcode --- */
-        .passcode-container input { width: 150px; padding: 10px; font-size: 24px; text-align: center; border-radius: 10px; border: 2px solid var(--pink); }
-
-        /* --- Page 4: Timer --- */
-        .dog-img { width: 150px; margin-bottom: 20px; }
-        .timer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .timer-box { background: rgba(255,255,255,0.8); padding: 15px; border-radius: 15px; text-align: center; min-width: 80px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-
-        /* --- Page 4.5: Chat --- */
-        .chat-container { width: 90%; max-width: 400px; height: 60vh; overflow-y: auto; background: white; border-radius: 20px; padding: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .bubble { padding: 10px 15px; border-radius: 15px; margin: 5px 0; max-width: 70%; word-wrap: break-word; opacity: 0; transform: translateY(10px); transition: all 0.3s; }
-        .left { align-self: flex-start; background: #f1f0f0; border-bottom-left-radius: 2px; }
-        .right { align-self: flex-end; background: #0084ff; color: white; border-bottom-right-radius: 2px; margin-left: auto; }
-        .show { opacity: 1; transform: translateY(0); }
-
-        /* --- Page 5: Puzzle --- */
-        #puzzle-board { width: 300px; height: 300px; position: relative; border: 2px dashed #ccc; }
-        .puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; border: 1px solid white; background-size: 300px 300px; }
-
-        /* --- Page 7: Scratch --- */
-        #scratch-container { position: relative; width: 300px; height: 150px; }
-        #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
-        .secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: white; font-size: 24px; color: #d63384; border-radius: 10px; }
-
-        /* Common Button */
-        .next-btn { margin-top: 20px; padding: 10px 25px; border-radius: 25px; border: none; background: var(--pink); color: white; cursor: pointer; font-weight: bold; }
-        
-        /* Particle Hearts */
-        .heart-particle { position: absolute; color: red; pointer-events: none; animation: fly 1s linear forwards; }
-        @keyframes fly { 
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) translateX(var(--x)) scale(0); opacity: 0; }
-        }
-    </style>
+    <title>Valentine's Surprise ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <section id="page1" class="screen active">
-        <div class="envelope-wrapper" onclick="openEnvelope()">
-            <div class="envelope" id="env">
-                <div class="letter">
-                    <div>
-                        <p>Happy Valentine's Day!</p>
-                        <button class="next-btn" onclick="nextPage(2)">ลองกดตรงนี้</button>
-                    </div>
-                </div>
+        <div class="envelope-wrapper" id="env-wrap" onclick="openEnvelope()">
+            <div class="letter">
+                <h3 style="margin:0; color:#ff4d6d;">Happy Valentine's Day!</h3>
+                <p style="font-size: 14px;">แด่คนเก่งของพี่...</p>
+                <button class="next-btn" onclick="nextPage(2)" style="scale: 0.8;">อ่านต่อคลิกเลย</button>
             </div>
-            <p style="text-align:center; margin-top:120px;">To: คนพิเศษ</p>
         </div>
+        <p id="click-hint" style="margin-top: 40px; color: #ff8e9b; font-weight: bold;">กดที่ซองจดหมายเพื่อเปิด</p>
     </section>
 
     <section id="page2" class="screen">
         <h2 id="q2">พร้อมจะย้อนไปดูความทรงจำหรือยัง?</h2>
-        <div style="display:flex; align-items:center;">
+        <div class="btn-group">
             <button id="btn-yes" onclick="nextPage(3)">พร้อมแล้ว</button>
             <button id="btn-no" onclick="increaseYes()">ไม่</button>
         </div>
@@ -149,7 +37,8 @@
     </section>
 
     <section id="page4" class="screen">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnd4eDdzbjN3Ym53eHh3eHh3eHh3eHh3eHh3eHh3eHh3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/L95W4wv8nNbzSCpxS4/giphy.gif" class="dog-img"> <h2>เราคุยกันมาแล้ว</h2>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnd4eDdzbjN3Ym53eHh3eHh3eHh3eHh3eHh3eHh3eHh3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/L95W4wv8nNbzSCpxS4/giphy.gif" class="dog-img">
+        <h2>เราคุยกันมาแล้ว</h2>
         <div class="timer-grid">
             <div class="timer-box"><div id="d">0</div><span>วัน</span></div>
             <div class="timer-box"><div id="h">0</div><span>ชั่วโมง</span></div>
@@ -160,8 +49,7 @@
     </section>
 
     <section id="page4.5" class="screen">
-        <div class="chat-container" id="chat-box">
-            </div>
+        <div class="chat-container" id="chat-box"></div>
         <button id="chat-next" class="next-btn" style="display:none;" onclick="nextPage(5)">ไปต่อ</button>
     </section>
 
@@ -173,7 +61,7 @@
 
     <section id="page6" class="screen" style="padding: 20px; text-align: center;">
         <h2>ความในใจที่อยากจะบอก</h2>
-        <p style="line-height: 1.8; font-size: 1.2rem;">
+        <p class="final-msg">
             สุขสันต์วันวาเลนไทน์น้าา ขอบคุณที่เข้ามาเป็นหนึ่งในความสุขของพี่ ขอให้หนูร่าเริงแล้วก็สดใสแบบนี้ไปนานๆน้า
         </p>
         <button class="next-btn" onclick="nextPage(7)">มีความลับจะบอก...</button>
@@ -188,165 +76,6 @@
         <p style="margin-top:20px; color:#888;">ขูดให้ทั่วเลยนะ!</p>
     </section>
 
-    <script>
-        // --- Navigation ---
-        function nextPage(num) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById('page' + num);
-            if(target) target.classList.add('active');
-            
-            if(num === 4) startTimer();
-            if(num === 4.5) startChat();
-            if(num === 5) initPuzzle();
-            if(num === 7) initScratch();
-        }
-
-        // --- Page 1: Hearts ---
-        function openEnvelope() {
-            document.getElementById('env').classList.add('open');
-            for(let i=0; i<15; i++) createHeart();
-        }
-        function createHeart() {
-            const h = document.createElement('div');
-            h.innerHTML = '❤️';
-            h.className = 'heart-particle';
-            h.style.left = '50%';
-            h.style.top = '50%';
-            h.style.setProperty('--x', (Math.random()*200 - 100) + 'px');
-            document.getElementById('page1').appendChild(h);
-            setTimeout(() => h.remove(), 1000);
-        }
-
-        // --- Page 2: No Button Logic ---
-        let noCount = 0;
-        function increaseYes() {
-            noCount++;
-            const yes = document.getElementById('btn-yes');
-            const no = document.getElementById('btn-no');
-            yes.style.transform = `scale(${1 + noCount * 1.5})`;
-            no.style.transform = `translateX(${noCount * 20}px)`;
-            if(noCount >= 5) {
-                no.style.display = 'none';
-                yes.style.position = 'fixed';
-                yes.style.top = '0'; yes.style.left = '0';
-                yes.style.width = '100vw'; yes.style.height = '100vh';
-                yes.style.zIndex = '99';
-            }
-        }
-
-        // --- Page 3: Passcode ---
-        function checkPass() {
-            const val = document.getElementById('pass-input').value;
-            if(val === "1402") { // เปลี่ยนรหัสที่นี่
-                nextPage(4);
-            } else {
-                document.getElementById('pass-hint').innerText = "คำใบ้: วันนี้วันอะไร?";
-                document.getElementById('pass-input').value = "";
-            }
-        }
-
-        // --- Page 4: Timer ---
-        function startTimer() {
-            const startDate = new Date('2026-02-08T00:00:00'); // EDIT HERE: วันเริ่มคุย
-            setInterval(() => {
-                const now = new Date();
-                const diff = now - startDate;
-                document.getElementById('d').innerText = Math.floor(diff / (1000*60*60*24));
-                document.getElementById('h').innerText = Math.floor((diff / (1000*60*60)) % 24);
-                document.getElementById('m').innerText = Math.floor((diff / (1000*60)) % 60);
-                document.getElementById('s').innerText = Math.floor((diff / 1000) % 60);
-            }, 1000);
-        }
-
-        // --- Page 4.5: Chat ---
-        const msgs = [
-            {t: "😊", s: "right"}, {t: "ดีครับบ", s: "left"}, {t: "ดีค้าบ", s: "right"},
-            {t: "ชื่ออาราย", s: "right"}, {t: "ปามมี่ค้าบบ", s: "left"}, {t: "หวัดดีแบงค์", s: "left"},
-            {t: "เรากันน", s: "right"}, {t: "5555555555555555", s: "right"}, {t: "พลาด", s: "left"},
-            {t: "เอ้าดูชื่อดิ", s: "left"}, {t: "ขอโทษค้าบบบ", s: "left"}, {t: "ละพิมพ์แบบมั่นใจด้วย", s: "right"},
-            {t: "น่ารักงับบ", s: "right"}
-        ];
-        function startChat() {
-            const box = document.getElementById('chat-box');
-            let i = 0;
-            const interval = setInterval(() => {
-                if(i < msgs.length) {
-                    const b = document.createElement('div');
-                    b.className = `bubble ${msgs[i].s}`;
-                    b.innerText = msgs[i].t;
-                    box.appendChild(b);
-                    setTimeout(() => b.classList.add('show'), 10);
-                    box.scrollTop = box.scrollHeight;
-                    i++;
-                } else {
-                    clearInterval(interval);
-                    document.getElementById('chat-next').style.display = 'block';
-                }
-            }, 1000);
-        }
-
-        // --- Page 5: Puzzle ---
-        function initPuzzle() {
-            const board = document.getElementById('puzzle-board');
-            const imgUrl = "https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=300&h=300&fit=crop"; // EDIT HERE: รูปช่อดอกไม้
-            let solved = 0;
-            for(let i=0; i<9; i++) {
-                const p = document.createElement('div');
-                p.className = 'puzzle-piece';
-                p.style.backgroundImage = `url(${imgUrl})`;
-                p.style.backgroundPosition = `${-(i%3)*100}px ${-Math.floor(i/3)*100}px`;
-                p.style.left = Math.random()*200 + 'px';
-                p.style.top = Math.random()*200 + 'px';
-                p.draggable = true;
-                
-                // Simple Drag Logic for Mobile/Web
-                p.onmousedown = dragMouseDown;
-                board.appendChild(p);
-
-                function dragMouseDown(e) {
-                    let pos1 = 0, pos2 = 0, pos3 = e.clientX, pos4 = e.clientY;
-                    document.onmousemove = (e) => {
-                        pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
-                        pos3 = e.clientX; pos4 = e.clientY;
-                        p.style.top = (p.offsetTop - pos2) + "px";
-                        p.style.left = (p.offsetLeft - pos1) + "px";
-                    };
-                    document.onmouseup = () => {
-                        document.onmousemove = null;
-                        // Check if close to target (Simplified)
-                        const targetX = (i%3)*100; const targetY = Math.floor(i/3)*100;
-                        if(Math.abs(p.offsetLeft - targetX) < 20 && Math.abs(p.offsetTop - targetY) < 20) {
-                            p.style.left = targetX + 'px'; p.style.top = targetY + 'px';
-                            p.onmousedown = null; solved++;
-                            if(solved === 9) { 
-                                alert("Happy Valentine's Day! ❤️");
-                                document.getElementById('puzzle-next').style.display = 'block';
-                            }
-                        }
-                    };
-                }
-            }
-        }
-
-        // --- Page 7: Scratch Card ---
-        function initScratch() {
-            const canvas = document.getElementById('scratch-canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#C0C0C0';
-            ctx.fillRect(0, 0, 300, 150);
-            ctx.globalCompositeOperation = 'destination-out';
-
-            function scratch(e) {
-                const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
-                ctx.beginPath();
-                ctx.arc(x, y, 20, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('touchmove', scratch);
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
