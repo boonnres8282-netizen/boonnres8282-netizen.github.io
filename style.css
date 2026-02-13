@@ -1,82 +1,71 @@
 :root {
-    --pink: #ffafbd;
-    --deep-pink: #ff8e9b;
-    --text-pink: #d63384;
+    --pink-bg: #fdf2f2;
+    --envelope-color: #ffafbd;
+    --lid-color: #ff8e9b;
+    --text-color: #d63384;
 }
 
-body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kanit', sans-serif; background: #fdf2f2; overflow: hidden; }
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kanit', sans-serif; background: var(--pink-bg); overflow: hidden; }
 .screen { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; position: absolute; }
 .active { display: flex; }
 
-/* Envelope Setup */
+/* Envelope Styling */
 .envelope-container { position: relative; width: 300px; height: 200px; cursor: pointer; }
 .envelope-wrapper { position: relative; width: 100%; height: 100%; transition: transform 0.8s ease-in-out; }
 
-.envelope-back { position: absolute; width: 100%; height: 100%; background: #ffb7c5; z-index: 1; border-radius: 0 0 10px 10px; }
+.envelope-back { position: absolute; width: 100%; height: 100%; background: var(--envelope-color); z-index: 1; border-radius: 5px; }
 
-/* ซองหน้า (ใช้ Border ในการสร้างรูปทรง) */
 .envelope-front {
-    position: absolute; width: 0; height: 0;
-    border-top: 100px solid transparent;
-    border-left: 150px solid #ffafbd;
-    border-right: 150px solid #ffafbd;
-    border-bottom: 100px solid #ffafbd;
-    z-index: 3; border-radius: 0 0 10px 10px;
+    position: absolute; width: 100%; height: 100%; background: var(--envelope-color); z-index: 3;
+    clip-path: polygon(0 35%, 50% 70%, 100% 35%, 100% 100%, 0 100%);
+    border-radius: 0 0 5px 5px;
 }
 
-/* ข้อความ To: มุมซ้ายล่าง */
-.envelope-label {
-    position: absolute; bottom: -85px; left: -140px; width: 120px;
-    color: var(--text-pink); font-weight: 600; font-size: 0.95rem;
-    z-index: 5; text-align: left;
+.heart-center {
+    position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 35px; z-index: 5; animation: heartBeat 0.8s infinite alternate;
 }
 
-/* ฝาซองสามเหลี่ยม */
+.to-label {
+    position: absolute; bottom: 15px; left: 15px;
+    color: var(--text-color); font-weight: bold; font-size: 1.1rem; z-index: 5;
+}
+
 .lid {
     position: absolute; top: 0; left: 0; width: 0; height: 0;
-    border-top: 110px solid var(--deep-pink);
-    border-left: 150px solid transparent;
-    border-right: 150px solid transparent;
+    border-top: 110px solid var(--lid-color); border-left: 150px solid transparent; border-right: 150px solid transparent;
     z-index: 4; transform-origin: top; transition: transform 0.7s ease-in-out;
-    display: flex; justify-content: center;
 }
 
-/* หัวใจตรงจงอยฝาซอง */
-.heart-pulse {
-    position: absolute; top: -118px; font-size: 28px;
-    animation: heartBeat 0.8s infinite alternate;
-    z-index: 6;
-}
-@keyframes heartBeat { from { transform: scale(1); } to { transform: scale(1.3); } }
-
-/* กระดาษจดหมาย (มี Delay รอฝาเปิด) */
 .letter {
     position: absolute; top: 10px; left: 15px; width: 270px; height: 180px;
     background: white; z-index: 2; display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1); padding: 15px; box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 15px; box-sizing: border-box;
     transition: transform 1s ease-in-out 0.7s, z-index 0s linear 1s;
 }
 
-/* จังหวะการเปิดสวนทาง */
+/* Animations */
 .open .lid { transform: rotateX(180deg); z-index: 1; }
-.open .envelope-wrapper { transform: translateY(60px); } /* เลื่อนซองลง */
-.open .letter { transform: translateY(-220px); z-index: 10; } /* เลื่อนจดหมายขึ้น */
-.open .heart-pulse { opacity: 0; transition: 0.3s; }
+.open .envelope-wrapper { transform: translateY(80px); }
+.open .letter { transform: translateY(-220px); z-index: 10; }
+.open .heart-center { opacity: 0; }
 
-/* ตกแต่งส่วนอื่นๆ */
-.next-btn { margin-top: 10px; padding: 8px 18px; border-radius: 20px; border: none; background: var(--deep-pink); color: white; cursor: pointer; font-weight: bold; }
-.timer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.timer-box { background: white; padding: 10px; border-radius: 10px; text-align: center; min-width: 70px; }
-.chat-container { width: 90%; max-width: 350px; height: 50vh; overflow-y: auto; background: #fff; border-radius: 15px; padding: 10px; display: flex; flex-direction: column; }
-.bubble { padding: 10px; border-radius: 15px; margin: 5px 0; max-width: 75%; font-size: 14px; opacity: 0; transform: translateY(10px); transition: 0.3s; }
-.show { opacity: 1; transform: translateY(0); }
+@keyframes heartBeat { from { transform: translate(-50%, -50%) scale(1); } to { transform: translate(-50%, -50%) scale(1.2); } }
+
+/* Chat, Puzzle, Scratch Styles */
+.chat-container { width: 90%; max-width: 350px; height: 50vh; overflow-y: auto; background: white; border-radius: 15px; padding: 10px; display: flex; flex-direction: column; }
+.bubble { padding: 8px 12px; border-radius: 15px; margin: 4px 0; max-width: 80%; opacity: 0; transition: 0.3s; }
 .left { align-self: flex-start; background: #eee; }
-.right { align-self: flex-end; background: var(--deep-pink); color: white; }
-#puzzle-board { width: 300px; height: 300px; position: relative; border: 2px solid var(--pink); background: #fff; margin-top: 20px; }
-.puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; background-size: 300px 300px; touch-action: none; border: 0.5px solid #eee; }
+.right { align-self: flex-end; background: var(--lid-color); color: white; }
+.show { opacity: 1; }
+
+#puzzle-board { width: 300px; height: 300px; position: relative; border: 2px solid #ffb7c5; background: white; }
+.puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; background-size: 300px 300px; border: 0.5px solid #eee; }
+
 #scratch-container { position: relative; width: 300px; height: 150px; background: white; border-radius: 10px; overflow: hidden; margin-top: 20px; }
-#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
-.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ff4d6d; font-weight: bold; }
-.heart { position: absolute; font-size: 20px; color: #ff4d6d; pointer-events: none; z-index: 11; animation: floatUp 1.5s ease-out forwards; }
-@keyframes floatUp { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } }
+#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #ff4d6d; font-weight: bold; }
+
+.next-btn { padding: 10px 25px; border: none; border-radius: 25px; background: var(--lid-color); color: white; font-weight: bold; cursor: pointer; margin-top: 15px; }
+#click-hint { margin-top: 40px; color: var(--lid-color); font-weight: bold; }
