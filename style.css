@@ -1,78 +1,78 @@
 :root {
-    --pink-light: #ffafbd;
-    --pink-deep: #ff8e9b;
-    --text-color: #d63384;
+    --pink: #ffafbd;
+    --deep-pink: #ff8e9b;
+    --text-pink: #d63384;
 }
 
-body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kanit', sans-serif; background: #fdf2f2; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Kanit', sans-serif; background: #fdf2f2; overflow: hidden; }
 .screen { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; position: absolute; }
 .active { display: flex; }
 
-/* กล่องจดหมายกลางจอ */
-.envelope-wrapper {
-    position: relative; width: 300px; height: 200px;
-    background: var(--pink-light); border-radius: 0 0 10px 10px;
-    cursor: pointer; transition: transform 0.5s;
-}
+/* Envelope Section */
+.envelope-container { position: relative; width: 300px; height: 200px; cursor: pointer; }
+.envelope-wrapper { position: relative; width: 100%; height: 100%; }
 
-/* ฝาซอง (ชั้นบนสุด - z-index: 10) */
 .lid {
     position: absolute; top: 0; left: 0; width: 0; height: 0;
-    border-top: 100px solid var(--pink-deep);
-    border-left: 150px solid transparent; border-right: 150px solid transparent;
-    z-index: 10; transform-origin: top; transition: 0.6s ease-in-out;
-}
-
-/* หัวใจ (z-index: 11) */
-.heart {
-    position: absolute; top: 85px; left: 50%; transform: translateX(-50%);
-    font-size: 25px; z-index: 11; transition: 0.3s;
-}
-
-/* ตัวซองด้านหน้า (ทับจดหมายไว้ - z-index: 5) */
-.envelope-front {
-    position: absolute; bottom: 0; width: 100%; height: 110px;
-    background: var(--pink-light); z-index: 5; border-radius: 0 0 10px 10px;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-}
-
-.to-text {
-    position: absolute; bottom: 15px; left: 15px;
-    color: var(--text-color); font-weight: 600; line-height: 1.2;
-}
-
-/* จดหมาย (ตอนแรกซ่อนไว้ข้างหลัง - z-index: 2) */
-.letter {
-    position: absolute; bottom: 10px; left: 10px; width: 280px; height: 180px;
-    background: white; z-index: 2; border-radius: 5px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1); transition: 0.8s; text-align: center;
+    border-top: 110px solid var(--deep-pink);
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    z-index: 4; transform-origin: top;
+    transition: transform 0.7s ease-in-out; /* ฝาใช้เวลาเปิด 0.7 วินาที */
 }
 
 .envelope-back {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: var(--pink-light); z-index: 1; border-radius: 5px;
+    position: absolute; width: 100%; height: 100%;
+    background: #ffb7c5; z-index: 1; border-radius: 0 0 5px 5px;
 }
 
-/* --- Animation เปิดซอง --- */
-.open .lid { transform: rotateX(180deg); z-index: 0; } /* ฝาเปิดไปข้างหลัง */
-.open .heart { opacity: 0; }
-.open .letter { transform: translateY(-150px); z-index: 12; } /* จดหมายลอยมาข้างหน้าสุด */
+.envelope-front {
+    position: absolute; width: 0; height: 0;
+    border-top: 100px solid transparent;
+    border-left: 150px solid #ffafbd;
+    border-right: 150px solid #ffafbd;
+    border-bottom: 100px solid #ffafbd;
+    z-index: 3; border-radius: 0 0 5px 5px;
+}
 
-/* ส่วนตกแต่งและปุ่ม */
-.next-btn, .next-btn-small { background: var(--pink-deep); color: white; border: none; border-radius: 20px; font-weight: bold; cursor: pointer; }
-.next-btn { padding: 10px 30px; margin-top: 20px; }
-.next-btn-small { padding: 5px 15px; font-size: 12px; }
-#click-hint { margin-top: 30px; color: var(--pink-deep); font-weight: bold; }
+.envelope-label {
+    position: absolute; bottom: 20px; left: 20px;
+    z-index: 5; color: var(--text-pink); font-weight: bold; font-size: 1.1rem;
+    transition: opacity 0.3s;
+}
 
-/* CSS ส่วน Chat / Puzzle / Scratch (คงเดิม) */
-.chat-container { width: 300px; height: 400px; background: white; border-radius: 10px; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; }
-.bubble { padding: 8px 12px; margin: 5px; border-radius: 15px; opacity: 0; transition: 0.3s; max-width: 80%; }
-.left { align-self: flex-start; background: #eee; }
-.right { align-self: flex-end; background: var(--pink-deep); color: white; }
-.show { opacity: 1; }
-#puzzle-board { width: 300px; height: 300px; position: relative; background: #fff; }
-.puzzle-piece { width: 100px; height: 100px; position: absolute; background-size: 300px 300px; }
-#scratch-container { position: relative; width: 300px; height: 150px; background: #fff; border-radius: 10px; overflow: hidden; margin-top: 20px; }
-#scratch-canvas { position: absolute; top: 0; left: 0; }
-.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #ff4d6d; font-weight: bold; }
+.letter {
+    position: absolute; top: 10px; left: 15px; width: 270px; height: 180px;
+    background: white; z-index: 2; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 10px; box-sizing: border-box;
+    /* หน่วงเวลากระดาษ 0.7s (ให้ฝาเปิดก่อน) แล้วใช้เวลาเลื่อนขึ้น 1s */
+    transition: transform 1s ease-in-out 0.7s, z-index 0s linear 1s;
+}
+
+/* สถานะเมื่อกดเปิด */
+.open .lid { transform: rotateX(180deg); z-index: 1; }
+.open .letter { transform: translateY(-140px); z-index: 10; }
+.open .envelope-label { opacity: 0; }
+
+/* หัวใจกระจาย */
+.heart { position: absolute; font-size: 20px; color: #ff4d6d; pointer-events: none; z-index: 11; animation: floatUp 1.5s ease-out forwards; }
+@keyframes floatUp { 
+    0% { transform: translate(0, 0) scale(1); opacity: 1; } 
+    100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; } 
+}
+
+/* ส่วนอื่นๆ */
+.next-btn { margin-top: 15px; padding: 10px 20px; border-radius: 20px; border: none; background: var(--deep-pink); color: white; cursor: pointer; font-weight: bold; }
+.timer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.timer-box { background: white; padding: 10px; border-radius: 10px; text-align: center; min-width: 75px; }
+.chat-container { width: 90%; max-width: 380px; height: 55vh; overflow-y: auto; background: #fff; border-radius: 20px; padding: 10px; display: flex; flex-direction: column; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+.bubble { padding: 10px 14px; border-radius: 18px; margin: 5px 0; max-width: 75%; font-size: 14px; opacity: 0; transform: translateY(10px); transition: 0.3s; }
+.left { align-self: flex-start; background: #e9e9eb; }
+.right { align-self: flex-end; background: var(--deep-pink); color: white; }
+.show { opacity: 1; transform: translateY(0); }
+#puzzle-board { width: 300px; height: 300px; position: relative; border: 2px solid #ffb7c5; background: #fff; margin-top: 20px; }
+.puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; background-size: 300px 300px; touch-action: none; border: 0.5px solid #eee; }
+#scratch-container { position: relative; width: 300px; height: 150px; background: white; border-radius: 10px; overflow: hidden; }
+#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
+.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ff4d6d; font-weight: bold; }
