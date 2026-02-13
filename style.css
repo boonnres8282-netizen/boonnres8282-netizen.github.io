@@ -1,82 +1,136 @@
-/* หน้า 1: ปรับแต่งให้ซองปิดสนิท */
-.envelope-wrapper {
+:root {
+    --pink: #ffafbd;
+    --deep-pink: #ff8e9b;
+    --text-pink: #d63384;
+}
+
+body, html {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    font-family: 'Kanit', sans-serif;
+    background: #fdf2f2;
+    overflow: hidden;
+}
+
+.screen {
+    display: none; width: 100%; height: 100vh;
+    flex-direction: column; align-items: center; justify-content: center;
+    position: absolute;
+}
+.active { display: flex; }
+
+/* Page 1: Envelope System */
+.envelope-container {
     position: relative;
     width: 300px;
     height: 200px;
-    background: #ffb7c5;
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     cursor: pointer;
-    overflow: visible; /* ยอมให้กระดาษโผล่ออกมาตอนเปิด */
 }
 
-/* ฝาซองจดหมาย - ต้องอยู่หน้าสุด (Z-index 5) */
-.envelope-wrapper::before {
-    content: "";
+.envelope-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.lid {
     position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 5; 
-    border-top: 130px solid #ff8e9b;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    border-top: 110px solid var(--deep-pink);
     border-left: 150px solid transparent;
     border-right: 150px solid transparent;
+    z-index: 4; /* ปิดทับจดหมายไว้ */
     transform-origin: top;
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.6s ease;
 }
 
-/* กระดาษจดหมาย - ตอนแรกต้องซ่อนอยู่ในซอง (Z-index 2) */
+.envelope-back {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #ffb7c5;
+    z-index: 1;
+    border-radius: 0 0 5px 5px;
+}
+
+.envelope-front {
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    border-top: 100px solid transparent;
+    border-left: 150px solid #ffafbd;
+    border-right: 150px solid #ffafbd;
+    border-bottom: 100px solid #ffafbd;
+    z-index: 3; /* ทับจดหมายไว้! */
+    border-radius: 0 0 5px 5px;
+}
+
+.envelope-label {
+    position: absolute;
+    top: 50px; left: -130px;
+    width: 200px;
+    color: var(--text-pink);
+    font-weight: bold;
+    font-size: 1.2rem;
+    z-index: 5;
+}
+
 .letter {
     position: absolute;
-    top: 10px; /* ขยับลงมาให้อยู่ในซอง */
-    left: 10px;
-    width: 280px;
-    height: 180px;
+    top: 10px; left: 10px;
+    width: 280px; height: 180px;
     background: white;
-    z-index: 2; 
-    transition: transform 0.8s ease-in-out 0.3s; /* รอให้ฝาเปิดก่อนค่อยเลื่อน */
+    z-index: 2; /* มุดอยู่ระหว่างซอง */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.8s ease;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-/* เมื่อกดเปิดซอง */
-.envelope-wrapper.open::before {
-    transform: rotateX(180deg);
-    z-index: 1; /* พลิกฝาไปอยู่หลังสุด */
+/* Open Animation */
+.open .lid { transform: rotateX(180deg); z-index: 1; }
+.open .letter { transform: translateY(-140px); z-index: 5; }
+
+/* Hearts */
+.heart {
+    position: absolute; font-size: 20px; color: #ff4d6d;
+    pointer-events: none; z-index: 10; animation: floatUp 1.5s ease-out forwards;
+}
+@keyframes floatUp {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
 }
 
-.envelope-wrapper.open .letter {
-    transform: translateY(-150px); /* ดึงกระดาษขึ้นมา */
-    z-index: 4; /* ให้กระดาษมาอยู่ข้างหน้าซอง */
-}
+/* Page 2 & Buttons */
+.next-btn { margin-top: 20px; padding: 10px 25px; border-radius: 25px; border: none; background: var(--deep-pink); color: white; cursor: pointer; font-weight: bold; }
+#btn-yes { transition: all 0.2s; font-size: 18px; padding: 10px 20px; border-radius: 20px; border: none; background: #4caf50; color: white; cursor: pointer; }
+#btn-no { font-size: 18px; padding: 10px 20px; border-radius: 20px; border: none; background: #f44336; color: white; cursor: pointer; margin-left: 10px; }
 
-/* ข้อความ To: ต้องอยู่หน้าซองเสมอ */
-.envelope-label {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    z-index: 6; /* อยู่หน้าสุดของซองทั้งหมด */
-    color: #d63384;
-    font-weight: bold;
-    font-size: 1.2rem;
-    pointer-events: none; /* เพื่อให้ยังกดซองเปิดได้ */
-}
+/* Page 3: Passcode */
+.passcode-container input { width: 150px; padding: 10px; font-size: 24px; text-align: center; border-radius: 10px; border: 2px solid var(--pink); outline: none; }
 
-/* เพิ่มส่วนหน้าซองเพื่อปิดกระดาษด้านล่าง */
-.envelope-front {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border-left: 150px solid transparent;
-    border-right: 150px solid transparent;
-    border-bottom: 100px solid #ffb7c5; /* ตัวซองด้านหน้า */
-    z-index: 4; /* ทับจดหมายไว้ตอนที่จดหมายยังไม่เลื่อนขึ้น */
-    pointer-events: none;
-}
+/* Page 4: Timer */
+.dog-img { width: 150px; margin-bottom: 20px; border-radius: 20px; }
+.timer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.timer-box { background: white; padding: 15px; border-radius: 15px; text-align: center; min-width: 80px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+/* Page 4.5: Chat */
+.chat-container { width: 90%; max-width: 400px; height: 60vh; overflow-y: auto; background: #fff; border-radius: 20px; padding: 15px; display: flex; flex-direction: column; }
+.bubble { padding: 10px 15px; border-radius: 18px; margin: 5px 0; max-width: 75%; font-size: 14px; opacity: 0; transform: translateY(10px); transition: 0.3s; }
+.left { align-self: flex-start; background: #e9e9eb; color: black; border-bottom-left-radius: 2px; }
+.right { align-self: flex-end; background: var(--deep-pink); color: white; border-bottom-right-radius: 2px; }
+.show { opacity: 1; transform: translateY(0); }
+
+/* Page 5: Puzzle */
+#puzzle-board { width: 300px; height: 300px; position: relative; border: 2px solid #ffb7c5; background: #fff; margin-top: 20px; }
+.puzzle-piece { width: 100px; height: 100px; position: absolute; cursor: grab; background-size: 300px 300px; touch-action: none; border: 0.5px solid white;}
+
+/* Page 7: Scratch */
+#scratch-container { position: relative; width: 300px; height: 150px; background: white; border-radius: 10px; overflow: hidden; }
+#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; }
+.secret-text { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #ff4d6d; font-weight: bold; }
