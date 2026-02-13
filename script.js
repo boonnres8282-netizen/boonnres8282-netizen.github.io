@@ -1,16 +1,12 @@
 function openEnvelope() {
-    const page = document.getElementById('page1');
-    if (!page.classList.contains('open')) {
-        page.classList.add('open');
-        document.getElementById('click-hint').style.display = 'none';
-    }
+    document.querySelector('.envelope-wrapper').classList.add('open');
+    document.getElementById('click-hint').style.display = 'none';
 }
 
 function nextPage(num) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = (num === 4.5) ? 'page4.5' : 'page' + num;
     document.getElementById(target).classList.add('active');
-    
     if (num === 4) startTimer();
     if (num === 4.5) startChat();
     if (num === 5) initPuzzle();
@@ -18,18 +14,16 @@ function nextPage(num) {
 }
 
 function checkPass() {
-    const input = document.getElementById('pass-input').value;
-    if (input === "1402") nextPage(4);
-    else alert("รหัสไม่ถูกต้องนะ ลองใหม่ดูครับ");
+    if (document.getElementById('pass-input').value === "1402") nextPage(4);
+    else alert("รหัสผิดนะ ลองใหม่ดูจ้า");
 }
 
 function startTimer() {
-    const start = new Date('2024-02-14T00:00:00'); // แก้เป็นวันที่เริ่มคุยกัน
-    const timerDisplay = document.getElementById('timer');
+    const start = new Date('2024-02-14T00:00:00');
     setInterval(() => {
         const diff = new Date() - start;
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        timerDisplay.innerText = days + " วันแล้วที่รักกัน ❤️";
+        document.getElementById('timer').innerText = days + " วันแล้วที่รักกัน ❤️";
     }, 1000);
 }
 
@@ -46,7 +40,6 @@ function startChat() {
 
 function initPuzzle() {
     const board = document.getElementById('puzzle-board'); if(board.children.length > 0) return;
-    let solved = 0;
     for(let i=0; i<9; i++) {
         const p = document.createElement('div'); p.className = 'puzzle-piece';
         p.style.backgroundImage = `url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=300')`;
@@ -63,8 +56,7 @@ function initPuzzle() {
                 document.removeEventListener(moveEv, onMove);
                 const tx = (i%3)*100, ty = Math.floor(i/3)*100;
                 if(Math.abs(parseInt(p.style.left)-tx)<30 && Math.abs(parseInt(p.style.top)-ty)<30) {
-                    p.style.left = tx+'px'; p.style.top = ty+'px'; p.style.pointerEvents="none"; solved++;
-                    if(solved === 9) document.getElementById('puzzle-next').style.display='block';
+                    p.style.left = tx+'px'; p.style.top = ty+'px'; p.style.pointerEvents="none";
                 }
             };
         };
