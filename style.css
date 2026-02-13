@@ -19,22 +19,23 @@ body, html {
 }
 .active { display: flex; }
 
-/* หน้าซองจดหมาย */
+/* Page 1: Envelope (Fixed) */
 .envelope-wrapper {
     position: relative;
     width: 300px;
     height: 200px;
     background: #ffb7c5;
     border-radius: 0 0 5px 5px;
-    z-index: 2;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    cursor: pointer;
 }
 
-/* ฝาซอง: ต้องมี z-index สูงที่สุดในตอนแรกเพื่อปิดจดหมาย */
+/* ฝาซอง */
 .envelope-wrapper::before {
     content: "";
     position: absolute;
     top: 0;
-    z-index: 5; /* อยู่หน้าสุด */
+    z-index: 5; /* อยู่หน้าสุดเพื่อปิดจดหมาย */
     border-top: 130px solid #ff8e9b;
     border-left: 150px solid transparent;
     border-right: 150px solid transparent;
@@ -42,7 +43,13 @@ body, html {
     transition: transform 0.6s ease;
 }
 
-/* จดหมาย: ซ่อนอยู่ข้างหลังฝาซอง */
+/* เมื่อเปิดซอง */
+.envelope-wrapper.open::before {
+    transform: rotateX(180deg);
+    z-index: 1; /* ให้ฝาไปอยู่หลังกระดาษ */
+}
+
+/* ตัวจดหมาย */
 .letter {
     position: absolute;
     bottom: 5px;
@@ -50,26 +57,41 @@ body, html {
     width: 280px;
     height: 180px;
     background: white;
-    z-index: 3; /* อยู่หลังฝาซองแต่หน้าตัวซอง */
+    z-index: 3; /* อยู่หลังฝาซอง */
     transition: transform 0.8s ease 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-/* ข้อความ To: บนหน้าซอง */
+.envelope-wrapper.open .letter {
+    transform: translateY(-130px); /* เลื่อนขึ้น */
+}
+
+/* ข้อความ To: หน้าซอง */
 .envelope-label {
     position: absolute;
     bottom: 20px;
     left: 20px;
-    z-index: 6; /* ต้องอยู่หน้าสุดเพื่อให้เห็นข้อความ */
-    font-family: 'Kanit', sans-serif;
+    z-index: 6; /* อยู่บนสุดของซอง */
     color: #d63384;
     font-weight: bold;
+    font-size: 1.1rem;
 }
 
-/* เมื่อเปิดซอง: ย้ายฝาไปข้างหลังเพื่อให้จดหมายเลื่อนขึ้นมาทับได้ */
-.envelope-wrapper.open::before {
-    transform: rotateX(180deg);
-    z-index: 1; 
+/* หัวใจกระจาย */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    color: #ff4d6d;
+    pointer-events: none;
+    z-index: 10;
+    animation: floatUp 1.5s ease-out forwards;
 }
+
 @keyframes floatUp {
     0% { transform: translate(0, 0) scale(1); opacity: 1; }
     100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
