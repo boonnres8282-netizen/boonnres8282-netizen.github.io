@@ -10,35 +10,79 @@
 <body>
 
     <section id="page1" class="screen active">
-        <div class="envelope-wrapper" onclick="openEnvelope()">
-            
-            <div class="lid"></div>
+        <div class="envelope-container" onclick="openEnvelope()">
+            <div class="envelope-wrapper" id="env-wrap">
+                <div class="envelope-back"></div>
+                
+                <div class="letter">
+                    <h3 style="margin:0; color:#ff4d6d;">Happy Valentine's Day!</h3>
+                    <p style="font-size: 14px; margin: 10px 0;">แด่คนเก่งของพี่...</p>
+                    <button class="next-btn" onclick="nextPage(2)" style="scale: 0.8;">อ่านต่อคลิกเลย</button>
+                </div>
+                
+                <div class="envelope-front"></div>
+                
+                <div class="lid"></div>
 
-            <div class="heart">❤️</div>
-
-            <div class="envelope-front">
-                <div class="to-text">To:<br>คนพิเศษ</div>
+                <div class="envelope-label">To: คนพิเศษ</div>
             </div>
-
-            <div class="letter">
-                <h3 style="margin:0; color:#ff4d6d; font-size:18px;">Happy Valentine's Day!</h3>
-                <p style="font-size: 14px; margin: 10px 0;">แด่คนเก่งของพี่...</p>
-                <button class="next-btn-small" onclick="nextPage(2)">อ่านต่อ</button>
-            </div>
-
-            <div class="envelope-back"></div>
-
         </div>
-        <p id="click-hint">กดที่ซองจดหมายเพื่อเปิด</p>
+        <p id="click-hint" style="margin-top: 50px; color: #ff8e9b; font-weight: bold;">กดที่ซองจดหมายเพื่อเปิด</p>
     </section>
 
-    <section id="page2" class="screen"><h2>พร้อมจะดูความทรงจำหรือยัง?</h2><button class="next-btn" onclick="nextPage(3)">พร้อมแล้ว</button></section>
-    <section id="page3" class="screen"><h2>รหัส 4 ตัว</h2><input type="password" id="pass-input" maxlength="4"><button class="next-btn" onclick="checkPass()">ตกลง</button></section>
-    <section id="page4" class="screen"><div id="timer">...</div><button class="next-btn" onclick="nextPage(4.5)">ถัดไป</button></section>
-    <section id="page4.5" class="screen"><div class="chat-container" id="chat-box"></div><button id="chat-next" class="next-btn" style="display:none;" onclick="nextPage(5)">ไปต่อ</button></section>
-    <section id="page5" class="screen"><h2>ต่อจิ๊กซอว์สิ!</h2><div id="puzzle-board"></div><button id="puzzle-next" class="next-btn" style="display:none;" onclick="nextPage(6)">ไปต่อ</button></section>
-    <section id="page6" class="screen"><h2>สุขสันต์วันวาเลนไทน์</h2><button class="next-btn" onclick="nextPage(7)">มีความลับจะบอก...</button></section>
-    <section id="page7" class="screen"><h2>ขูดข้อความ</h2><div id="scratch-container"><div class="secret-text">รักหนูนะ ❤️</div><canvas id="scratch-canvas" width="300" height="150"></canvas></div></section>
+    <section id="page2" class="screen">
+        <h2>พร้อมจะย้อนไปดูความทรงจำหรือยัง?</h2>
+        <div class="btn-group">
+            <button id="btn-yes" onclick="nextPage(3)">พร้อมแล้ว</button>
+            <button id="btn-no" onclick="increaseYes()">ไม่</button>
+        </div>
+    </section>
+
+    <section id="page3" class="screen">
+        <h2 id="pass-hint">ลองเดาดูสิ (รหัส 4 ตัว)</h2>
+        <div class="passcode-container">
+            <input type="password" id="pass-input" maxlength="4" placeholder="****">
+        </div>
+        <button class="next-btn" onclick="checkPass()">ตกลง</button>
+    </section>
+
+    <section id="page4" class="screen">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnd4eDdzbjN3Ym53eHh3eHh3eHh3eHh3eHh3eHh3eHh3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/L95W4wv8nNbzSCpxS4/giphy.gif" class="dog-img">
+        <h2>เราคุยกันมาแล้ว</h2>
+        <div class="timer-grid">
+            <div class="timer-box"><div id="d">0</div><span>วัน</span></div>
+            <div class="timer-box"><div id="h">0</div><span>ชม.</span></div>
+            <div class="timer-box"><div id="m">0</div><span>นาที</span></div>
+            <div class="timer-box"><div id="s">0</div><span>วินาที</span></div>
+        </div>
+        <button class="next-btn" onclick="nextPage(4.5)">ดูความทรงจำของเรา →</button>
+    </section>
+
+    <section id="page4.5" class="screen">
+        <div class="chat-container" id="chat-box"></div>
+        <button id="chat-next" class="next-btn" style="display:none;" onclick="nextPage(5)">ไปต่อ</button>
+    </section>
+
+    <section id="page5" class="screen">
+        <h2>ต่อจิ๊กซอว์สิ!</h2>
+        <div id="puzzle-board"></div>
+        <button id="puzzle-next" class="next-btn" style="display:none;" onclick="nextPage(6)">ความในใจสุดท้าย...</button>
+    </section>
+
+    <section id="page6" class="screen" style="padding: 20px; text-align: center;">
+        <h2>ความในใจที่อยากจะบอก</h2>
+        <p class="final-msg">สุขสันต์วันวาเลนไทน์น้าา ขอบคุณที่เข้ามาเป็นหนึ่งในความสุขของพี่ ขอให้หนูร่าเริงแล้วก็สดใสแบบนี้ไปนานๆน้า</p>
+        <button class="next-btn" onclick="nextPage(7)">มีความลับจะบอก...</button>
+    </section>
+
+    <section id="page7" class="screen">
+        <h2>ขูดเพื่อดูข้อความ</h2>
+        <div id="scratch-container">
+            <div class="secret-text">พี่หลงรักหนูงับ</div>
+            <canvas id="scratch-canvas" width="300" height="150"></canvas>
+        </div>
+        <p style="margin-top:20px; color:#888;">ขูดให้ทั่วเลยนะ!</p>
+    </section>
 
     <script src="script.js"></script>
 </body>
