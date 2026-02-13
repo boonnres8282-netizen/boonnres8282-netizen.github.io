@@ -18,12 +18,12 @@ function nextPage(num) {
 }
 
 function checkPass() {
-    if (document.getElementById('pass-input').value === "1402") nextPage(4); // แก้รหัสตรงนี้
-    else alert("รหัสผิดน้าา ลองใหม่ๆ");
+    if (document.getElementById('pass-input').value === "1402") nextPage(4);
+    else alert("ลองรหัสใหม่อีกครั้งนะ!");
 }
 
 function startTimer() {
-    const start = new Date('2024-02-14T00:00:00'); // แก้เป็นวันที่เริ่มคุยกัน
+    const start = new Date('2024-02-14T00:00:00');
     setInterval(() => {
         const diff = new Date() - start;
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -31,7 +31,7 @@ function startTimer() {
     }, 1000);
 }
 
-const msgs = [{t: "ดีครับ", s: "left"}, {t: "ดีค่าา", s: "right"}, {t: "ชื่อไรเอ่ย", s: "right"}, {t: "ปามมี่ค่ะ", s: "left"}];
+const msgs = [{t: "ดีครับ", s: "left"}, {t: "ดีค่าา", s: "right"}, {t: "ปามมี่ใช่ป่าว", s: "right"}, {t: "ใช่ค่ะะ", s: "left"}];
 function startChat() {
     const box = document.getElementById('chat-box'); if(box.children.length > 0) return;
     let i = 0; const itv = setInterval(() => {
@@ -44,11 +44,10 @@ function startChat() {
 
 function initPuzzle() {
     const board = document.getElementById('puzzle-board'); if(board.children.length > 0) return;
-    const imgUrl = "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=300"; 
     let solved = 0;
     for(let i=0; i<9; i++) {
         const p = document.createElement('div'); p.className = 'puzzle-piece';
-        p.style.backgroundImage = `url(${imgUrl})`;
+        p.style.backgroundImage = `url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=300')`;
         p.style.backgroundPosition = `${-(i%3)*100}px ${-Math.floor(i/3)*100}px`;
         p.style.left = Math.random()*200+'px'; p.style.top = Math.random()*200+'px';
         p.onmousedown = p.ontouchstart = (e) => {
