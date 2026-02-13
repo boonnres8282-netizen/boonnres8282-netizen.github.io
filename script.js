@@ -1,6 +1,6 @@
 function nextPage(num) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const targetId = (num === 4.5) ? 'page4.5' : 'page' + num;
+    const targetId = num === 4.5 ? 'page4.5' : 'page' + num;
     document.getElementById(targetId).classList.add('active');
     
     if(num === 4) startTimer();
@@ -14,11 +14,13 @@ function openEnvelope() {
     if (!wrapper.classList.contains('open')) {
         wrapper.classList.add('open');
         document.getElementById('click-hint').style.opacity = '0';
+        
+        // รอให้ซองเปิดจนสุดก่อนค่อยพ่นหัวใจ (0.8 วินาที)
         setTimeout(() => {
-            for (let i = 0; i < 25; i++) {
-                setTimeout(createHeart, i * 60);
+            for (let i = 0; i < 30; i++) {
+                setTimeout(createHeart, i * 50);
             }
-        }, 700);
+        }, 800);
     }
 }
 
@@ -26,8 +28,8 @@ function createHeart() {
     const heart = document.createElement('div');
     heart.innerHTML = '❤️';
     heart.className = 'heart';
-    const x = (Math.random() - 0.5) * 400;
-    const y = -(Math.random() * 300 + 150);
+    const x = (Math.random() - 0.5) * 450;
+    const y = -(Math.random() * 350 + 200);
     heart.style.setProperty('--x', `${x}px`);
     heart.style.setProperty('--y', `${y}px`);
     heart.style.left = '50%'; heart.style.top = '40%';
@@ -49,12 +51,13 @@ function increaseYes() {
 }
 
 function checkPass() {
-    if(document.getElementById('pass-input').value === "1402") { nextPage(4); }
+    const val = document.getElementById('pass-input').value;
+    if(val === "1402") { nextPage(4); }
     else { document.getElementById('pass-hint').innerText = "ผิดครับ! ใบ้ให้: วันนี้วันอะไร?"; }
 }
 
 function startTimer() {
-    const startDate = new Date('2025-02-14T00:00:00'); // แก้เป็นวันที่เริ่มคุยกัน
+    const startDate = new Date('2025-02-14T00:00:00'); // แก้ไขวันที่เริ่มคุยกันตรงนี้
     setInterval(() => {
         const diff = new Date() - startDate;
         document.getElementById('d').innerText = Math.floor(diff / 86400000);
@@ -72,7 +75,7 @@ function startChat() {
             const b = document.createElement('div'); b.className = `bubble ${msgs[i].s}`; b.innerText = msgs[i].t;
             box.appendChild(b); setTimeout(() => b.classList.add('show'), 50); box.scrollTop = box.scrollHeight; i++;
         } else { clearInterval(itv); document.getElementById('chat-next').style.display = 'block'; }
-    }, 1000);
+    }, 1200);
 }
 
 function initPuzzle() {
@@ -111,7 +114,7 @@ function initScratch() {
         const r = canvas.getBoundingClientRect();
         const cx = (e.clientX || e.touches[0].clientX) - r.left;
         const cy = (e.clientY || e.touches[0].clientY) - r.top;
-        ctx.beginPath(); ctx.arc(cx, cy, 20, 0, 6.28); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, 25, 0, 6.28); ctx.fill();
     };
     canvas.addEventListener('mousemove', scratch); canvas.addEventListener('touchmove', scratch);
 }
