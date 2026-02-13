@@ -1,110 +1,173 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<title>Happy Valentine 💖</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mewtro - For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #FF7EB9;
+            --soft-pink: #FFC0CB;
+            --bg-white: #ffffff;
+        }
 
-<style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #fff;
-    text-align: center;
-  }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Kanit', sans-serif;
+            overflow: hidden;
+            background-color: var(--primary-pink);
+        }
 
-  .card {
-    background: rgba(255,255,255,0.15);
-    padding: 30px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    animation: fade 0.5s ease;
-  }
+        .screen {
+            display: none; /* ซ่อนทุกหน้าก่อน */
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
 
-  h1 {
-    font-size: 26px;
-    margin-bottom: 15px;
-  }
+        .active { display: flex; } /* แสดงหน้าปัจจุบัน */
 
-  p {
-    font-size: 18px;
-    line-height: 1.6;
-  }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  button {
-    margin-top: 25px;
-    padding: 12px 30px;
-    font-size: 16px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    background: #fff;
-    color: #ff5a7a;
-    transition: 0.3s;
-  }
+        /* --- หน้า 1: Passcode --- */
+        #passcode-screen { background: url('URL_รูปภาพพื้นหลัง_ของคุณ') center/cover; }
+        .passcode-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .keypad button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 1.2rem;
+        }
 
-  button:hover {
-    transform: scale(1.05);
-  }
+        /* --- หน้า 2: Envelope --- */
+        .envelope-wrapper { cursor: pointer; }
+        .envelope { width: 150px; height: 100px; background: #f08080; position: relative; border-radius: 0 0 5px 5px; }
+        .envelope::before {
+            content: ''; position: absolute; top: -75px; left: 0;
+            border-left: 75px solid transparent; border-right: 75px solid transparent;
+            border-bottom: 75px solid #f08080;
+        }
 
-  @keyframes fade {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-</style>
+        /* --- หน้า 3: Timer (ตามรูปเป๊ะๆ) --- */
+        .timer-card { background: rgba(255,255,255,0.2); padding: 30px; border-radius: 30px; backdrop-filter: blur(10px); width: 85%; max-width: 350px; color: white; }
+        .timer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .time-box { background: white; color: var(--primary-pink); padding: 15px; border-radius: 15px; font-weight: bold; }
+        .time-box span { font-size: 2rem; display: block; }
+
+        /* --- ปุ่มกด --- */
+        .btn-next {
+            background: white; color: var(--primary-pink); border: none;
+            padding: 12px 30px; border-radius: 25px; font-weight: bold;
+            margin-top: 20px; cursor: pointer;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="card">
-  <h1 id="title">Happy Valentine’s Day 🌹</h1>
-  <p id="text">มีอะไรอยากให้เธออ่านนิดนึง</p>
-  <button onclick="nextPage()">ไปต่อ ➜</button>
-</div>
+    <div id="passcode-screen" class="screen active">
+        <div class="passcode-box">
+            <p>ใส่รหัสเพื่อปลดล็อก ❤️</p>
+            <div id="dots">_ _ _ _</div>
+            <div class="keypad" id="keypad">
+                <button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button>
+                <button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button>
+                <button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button>
+                <span></span><button onclick="press(0)">0</button>
+            </div>
+        </div>
+    </div>
 
-<script>
-  const pages = [
-    {
-      title: "Happy Valentine’s Day 🌹",
-      text: "มีอะไรอยากให้เธออ่านนิดนึง"
-    },
-    {
-      title: "ตั้งแต่มีเธอ",
-      text: "วันธรรมดาๆ ของเรา มันดูพิเศษขึ้นแบบไม่รู้ตัวเลย"
-    },
-    {
-      title: "ไม่รู้อนาคตจะเป็นยังไง",
-      text: "แต่ตอนนี้ เราอยากใช้ความรู้สึกดีๆ นี้กับเธอให้นานที่สุด"
-    },
-    {
-      title: "ขอพูดตรงๆ นะ ❤️",
-      text: "เราไม่ได้เก่งคำหวาน แต่เราชอบเธอมากจริงๆ"
-    },
-    {
-      title: "สุขสันวาเลนไทน์ 💕",
-      text: "ขอบคุณที่เข้ามาในชีวิตเรา\nจาก [ใส่ชื่อคุณ]"
-    }
-  ];
+    <div id="envelope-screen" class="screen">
+        <div class="envelope-wrapper" onclick="nextScreen('timer-screen')">
+            <div style="font-size: 50px; margin-bottom: 20px;">✉️</div>
+            <p style="color: white;">มีข้อความถึงคุณ...</p>
+            <div class="envelope"></div>
+        </div>
+    </div>
 
-  let index = 0;
+    <div id="timer-screen" class="screen">
+        <div class="timer-card">
+            <div style="font-size: 50px;">🐶</div>
+            <h2>เราคบกันมาแล้ว</h2>
+            <div class="timer-grid">
+                <div class="time-box"><span id="days">0</span>วัน</div>
+                <div class="time-box"><span id="hours">0</span>ชั่วโมง</div>
+                <div class="time-box"><span id="mins">0</span>นาที</div>
+                <div class="time-box"><span id="secs">0</span>วินาที</div>
+            </div>
+            <button class="btn-next" onclick="nextScreen('photo-screen')">ดูความทรงจำ</button>
+        </div>
+    </div>
 
-  function nextPage() {
-    index++;
-    if (index < pages.length) {
-      document.getElementById("title").innerText = pages[index].title;
-      document.getElementById("text").innerText = pages[index].text;
-    } else {
-      document.querySelector("button").style.display = "none";
-    }
-  }
-</script>
+    <div id="photo-screen" class="screen">
+        <div style="width: 80%; height: 300px; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+             <img src="URL_รูปคู่_ของคุณ" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <p style="color: white; margin-top: 20px;">"รักที่สุดเลยนะ ❤️"</p>
+        <button class="btn-next" onclick="location.reload()">เริ่มใหม่</button>
+    </div>
 
+    <script>
+        // --- ระบบรหัสผ่าน ---
+        let input = "";
+        const correctPin = "1234"; // เปลี่ยนรหัสตรงนี้ได้ครับ
+
+        function press(num) {
+            input += num;
+            document.getElementById('dots').innerText = "* ".repeat(input.length);
+            if(input.length === 4) {
+                if(input === correctPin) {
+                    nextScreen('envelope-screen');
+                } else {
+                    alert("รหัสผิด ลองใหม่นะ!");
+                    input = "";
+                    document.getElementById('dots').innerText = "_ _ _ _";
+                }
+            }
+        }
+
+        // --- ระบบเปลี่ยนหน้า ---
+        function nextScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            if(screenId === 'timer-screen') startTimer();
+        }
+
+        // --- ระบบนับเวลา ---
+        function startTimer() {
+            const startDate = new Date(2025, 0, 1); // เปลี่ยนเป็นวันที่คุณเริ่มคบกัน (ปี, เดือน-1, วัน)
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - startDate;
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
+                document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
