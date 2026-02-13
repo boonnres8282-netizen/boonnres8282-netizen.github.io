@@ -11,21 +11,23 @@
 
     <section id="page1" class="screen active">
         <div class="envelope-wrapper" onclick="openEnvelope()">
-            <div class="lid"></div>
             
+            <div class="lid"></div>
+
             <div class="heart">❤️</div>
 
-            <div class="envelope-box">
-                <div class="letter">
-                    <h3 style="margin:0; color:#ff4d6d;">Happy Valentine's Day!</h3>
-                    <p style="font-size: 14px; margin: 10px 0;">แด่คนเก่งของพี่...</p>
-                    <button class="next-btn" onclick="nextPage(2)" style="scale: 0.8;">อ่านต่อคลิกเลย</button>
-                </div>
-
-                <div class="front-panel">
-                    <div class="to-text">To:<br>คนพิเศษ</div>
-                </div>
+            <div class="envelope-front">
+                <div class="to-text">To:<br>คนพิเศษ</div>
             </div>
+
+            <div class="letter">
+                <h3 style="margin:0; color:#ff4d6d; font-size:18px;">Happy Valentine's Day!</h3>
+                <p style="font-size: 14px; margin: 10px 0;">แด่คนเก่งของพี่...</p>
+                <button class="next-btn-small" onclick="nextPage(2)">อ่านต่อ</button>
+            </div>
+
+            <div class="envelope-back"></div>
+
         </div>
         <p id="click-hint">กดที่ซองจดหมายเพื่อเปิด</p>
     </section>
